@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner dashboard · Halavar</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1d2545">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d2545'/%3E%3Ccircle cx='16' cy='15' r='6' fill='%23f2c99a'/%3E%3Cpath d='M0 24q8-6 16-2t16-3v13H0z' fill='%23e2b98a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* The owner's back office for the Halavar demo: same sand/indigo/teal system as the public site,
+   quieter. One job per screen: sign in, then see what needs an answer, then see how full the coming weeks are. */
+:root{color-scheme:light dark;
+--bg:light-dark(#efe3cf,#16110c);--paper:light-dark(#f8f0e2,#211a13);--ink:light-dark(#2a1b11,#efe1c9);--soft:light-dark(#6b4f39,#bba487);
+--line:light-dark(#d4b892,#43362a);--night:#1d2545;--teal:light-dark(#11786f,#3cc0b2);--tealink:light-dark(#fff,#08201d);
+--wait:light-dark(#9a5a0e,#f0b35c);--bad:light-dark(#b3402a,#ff8a6e)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Instrument Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:Marcellus,Georgia,serif;font-weight:400;line-height:1.1;margin:0}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.bar{background:var(--night);color:#efe5d3;padding:14px max(4vw,16px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.bar .mark{font:400 24px Marcellus,serif;letter-spacing:.06em;color:inherit;text-decoration:none}
+.bar .where{opacity:.75;margin-right:auto}
+.bar a.site{color:#efe5d3}
+main{max-width:1240px;margin:0 auto;padding:clamp(24px,4vw,48px) max(4vw,16px) 64px}
+.note{font-size:13.5px;color:var(--soft)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:999px;border:0;background:var(--teal);color:var(--tealink);font:600 15px "Instrument Sans",sans-serif;cursor:pointer;white-space:nowrap}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.no{background:transparent;color:var(--bad);border:1px solid color-mix(in srgb,var(--bad) 45%,transparent)}
+.btn:disabled{opacity:.45;cursor:default}
+label{display:block;font-size:13.5px;font-weight:600;margin:0 0 6px}
+input{width:100%;min-height:46px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:16px "Instrument Sans",sans-serif}
+.err{color:var(--bad);font-weight:600;font-size:14.5px;margin:0}
+.err:empty{display:none}
+/* sign in */
+.gate{max-width:420px;margin:6vh auto;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:28px;display:grid;gap:16px}
+.gate h1{font-size:32px}
+.gate p{margin:0}
+/* dashboard */
+.head{display:flex;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.head h1{font-size:clamp(30px,4vw,44px);margin-right:auto}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:28px}
+.tile{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px}
+.tile b{display:block;font:400 clamp(30px,3.4vw,40px) Marcellus,serif;line-height:1.05;margin:6px 0 4px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tile .k{font-size:14px;font-weight:600}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:clamp(16px,2.4vw,24px);margin-bottom:28px}
+.card h2{font-size:24px;margin-bottom:4px}
+/* occupancy heat strip */
+.occ{overflow-x:auto;margin-top:14px;padding-bottom:4px}
+.occ table{border-collapse:separate;border-spacing:2px;font-size:12px}
+.occ th{font-weight:600;color:var(--soft);text-align:left;white-space:nowrap;padding-right:10px}
+.occ tbody th,.occ thead th:first-child{position:sticky;left:0;z-index:1;background:var(--paper)}
+.occ thead th{text-align:center;padding:0;font-weight:500;min-width:20px}
+.occ thead th.mon{color:var(--ink);font-weight:700}
+.occ td{width:20px;height:28px;border-radius:4px;padding:0}
+.occ td button{all:unset;display:block;width:100%;height:100%;border-radius:4px;cursor:default}
+.occ td button:focus-visible{outline:2px solid var(--ink)}
+.l0{background:color-mix(in srgb,var(--soft) 12%,transparent)}
+.l1{background:color-mix(in srgb,var(--teal) 30%,var(--paper))}
+.l2{background:color-mix(in srgb,var(--teal) 62%,var(--paper))}
+.l3{background:var(--teal)}
+.lx{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--soft) 22%,transparent) 0 3px,transparent 3px 6px)}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:13px;color:var(--soft)}
+.key i{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px;vertical-align:-2px}
+.tip{position:fixed;z-index:9;pointer-events:none;background:var(--ink);color:var(--bg);font-size:13px;padding:6px 10px;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .1s}
+/* requests */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 8px}
+.tabs button{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 14px "Instrument Sans",sans-serif;cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.req{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.2fr) minmax(0,.8fr) auto;gap:8px 20px;align-items:center;padding:16px 0;border-top:1px solid var(--line)}
+.req .who b{display:block;font-size:16.5px}
+.req .ref{font:600 13px "Instrument Sans",sans-serif;letter-spacing:.04em;color:var(--soft)}
+.req .stay b{display:block}
+.req .money{font:400 22px Marcellus,serif;white-space:nowrap;font-variant-numeric:tabular-nums}
+.req .acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.req .notes{grid-column:1/-1;margin:0;padding:8px 12px;border-left:3px solid var(--line);color:var(--soft);font-size:14.5px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.pill.pending{color:var(--wait)}.pill.confirmed{color:var(--teal)}.pill.declined{color:var(--soft)}
+.pill.pending::before{content:"●"}.pill.confirmed::before{content:"✓"}.pill.declined::before{content:"×"}
+.sample{font-size:12px;font-weight:600;color:var(--soft);border:1px dashed var(--line);border-radius:6px;padding:0 6px;margin-left:6px}
+.empty{padding:28px 0;color:var(--soft)}
+@media(max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.req{grid-template-columns:minmax(0,1fr) auto}.req .stay{grid-column:1/-1}.req .acts{grid-column:1/-1;justify-content:flex-start}}
+@media(max-width:480px){.tiles{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.tip{transition:none}}
+</style>
+</head>
+<body>
+<header class="bar"><a class="mark" href="index.html">HALAVAR</a><span class="where">Owner dashboard</span><a class="site" href="index.html">View the website</a></header>
+<main id="app">
+  <div class="gate"><p class="note">Loading…</p></div>
+</main>
+<div class="tip" id="tip" role="tooltip"></div>
+<script>
+{
+const SB='https://qpxdctbhnlqgfefxqiok.supabase.co/rest/v1/rpc/', KEY='sb_publishable_r6GD32Q57EbcoxJOMdLENQ_AdrtX9kb';
+const rpc=async(fn,body)=>{
+  let r;
+  try{r=await fetch(SB+fn,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(body||{})})}
+  catch{throw new Error('Could not reach the booking system. Check your connection.')}
+  const j=await r.json().catch(()=>null);
+  if(!r.ok)throw new Error((j&&j.message)||'Something went wrong. Try again.');
+  return j;
+};
+const $=id=>document.getElementById(id), app=$('app');
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>'AED '+Math.round(n).toLocaleString('en-US');
+const D=t=>new Date(t+'T00:00:00Z'), iso=d=>d.toISOString().slice(0,10);
+const add=(t,n)=>{const d=D(t);d.setUTCDate(d.getUTCDate()+n);return iso(d)};
+const fd=(t,o={weekday:'short',day:'numeric',month:'short'})=>D(t).toLocaleDateString('en-GB',{timeZone:'UTC',...o});
+const ago=ts=>{const m=Math.round((Date.now()-new Date(ts))/6e4);if(m<1)return'just now';if(m<60)return m+' min ago';const h=Math.round(m/60);if(h<24)return h+' h ago';const d=Math.round(h/24);return d+' day'+(d>1?'s':'')+' ago'};
+const LABEL={pending:'Waiting',confirmed:'Confirmed',declined:'Declined'};
+let pw=null, data=null, tab='pending', timer=null;
+
+/* ---- sign in / first-time password ---- */
+function gate(hasPw,msg=''){
+  clearInterval(timer);
+  app.innerHTML=hasPw?`
+  <form class="gate" id="f">
+    <h1>Owner sign-in</h1>
+    <p class="note">Booking requests from the website arrive here.</p>
+    <div><label for="pw">Owner password</label><input id="pw" type="password" autocomplete="current-password" required></div>
+    <button class="btn" type="submit">Sign in</button>
+    <p class="err" id="err" role="alert">${esc(msg)}</p>
+  </form>`:`
+  <form class="gate" id="f">
+    <h1>Set the owner password</h1>
+    <p class="note">This dashboard has no password yet. The first password saved here becomes the owner password, so set it now and keep it safe.</p>
+    <div><label for="pw">New password</label><input id="pw" type="password" autocomplete="new-password" minlength="10" required></div>
+    <div><label for="pw2">Type it again</label><input id="pw2" type="password" autocomplete="new-password" required></div>
+    <button class="btn" type="submit">Save password</button>
+    <p class="err" id="err" role="alert">${esc(msg)}</p>
+  </form>`;
+  $('pw').focus();
+  $('f').addEventListener('submit',async e=>{
+    e.preventDefault();const v=$('pw').value, btn=e.target.querySelector('button');
+    if(!hasPw){
+      if(v.length<10){$('err').textContent='Use at least 10 characters.';return}
+      if(v!==$('pw2').value){$('err').textContent='The two passwords are different.';return}
+    }
+    btn.disabled=true;$('err').textContent='';
+    try{
+      if(!hasPw){const r=await rpc('owner_set_password',{p_new:v});if(!r.ok){$('err').textContent=r.error;btn.disabled=false;return}}
+      const r=await rpc('owner_bookings',{p_pw:v});
+      if(!r.ok){$('err').textContent=r.error;btn.disabled=false;return}
+      pw=v;data=r;draw();timer=setInterval(refresh,30000);
+    }catch(err){$('err').textContent=err.message;btn.disabled=false}
+  });
+}
+
+/* ---- dashboard ---- */
+async function refresh(){
+  if(!pw||document.hidden)return;
+  try{const r=await rpc('owner_bookings',{p_pw:pw});if(!r.ok){pw=null;gate(true,r.error);return}data=r;draw()}
+  catch(err){const s=$('stamp');if(s)s.textContent=err.message}
+}
+function stats(){
+  const b=data.bookings, t=data.today, end=add(t,30), live=b.filter(x=>x.status!=='declined');
+  let nights=0;
+  for(const x of live)for(let k=0;k<x.nights;k++){const n=add(x.arrive,k);if(n>=t&&n<end)nights++}
+  const cap=data.villas.reduce((s,v)=>s+v.units,0)*30;
+  return{
+    waiting:b.filter(x=>x.status==='pending').length,
+    revenue:b.filter(x=>x.status==='confirmed'&&add(x.arrive,x.nights)>t).reduce((s,x)=>s+x.total,0),
+    occ:Math.round(nights/cap*100),
+    week:b.filter(x=>Date.now()-new Date(x.created_at)<7*864e5).length};
+}
+function heat(){
+  const t=data.today, days=Array.from({length:45},(_,i)=>add(t,i));
+  const count=(v,n)=>data.bookings.filter(x=>x.villa===v&&x.status!=='declined'&&n>=x.arrive&&n<add(x.arrive,x.nights)).length;
+  const head=days.map((n,i)=>{const d=+n.slice(8);const mon=i===0||d===1;return `<th scope="col" class="${mon?'mon':''}" title="${esc(fd(n))}">${mon?esc(fd(n,{month:'short'})):d}</th>`}).join('');
+  const rows=data.villas.map(v=>`<tr><th scope="row">${esc(v.name)} <span class="note">${v.units}</span></th>${days.map(n=>{
+    const m=+n.slice(5,7);
+    if(m>=5&&m<=9)return `<td class="lx"><button type="button" data-tip="${esc(v.name)}, ${esc(fd(n))}: closed season"></button></td>`;
+    const c=count(v.id,n), r=c/v.units, l=c===0?0:r>=1?3:r>=.5?2:1;
+    return `<td class="l${l}"><button type="button" data-tip="${esc(v.name)}, ${esc(fd(n))}: ${c} of ${v.units} booked"></button></td>`}).join('')}</tr>`).join('');
+  return `<div class="occ"><table><thead><tr><th></th>${head}</tr></thead><tbody>${rows}</tbody></table></div>
+  <div class="key"><span><i class="l0"></i>Empty</span><span><i class="l1"></i>Under half</span><span><i class="l2"></i>Half or more</span><span><i class="l3"></i>Full</span><span><i class="lx"></i>Closed season</span></div>`;
+}
+function list(){
+  const all=data.bookings, show=tab==='all'?all:all.filter(x=>x.status===tab);
+  const vn=id=>(data.villas.find(v=>v.id===id)||{}).name||id;
+  const n=s=>all.filter(x=>x.status===s).length;
+  const tabs=[['pending',`Waiting (${n('pending')})`],['confirmed',`Confirmed (${n('confirmed')})`],['declined',`Declined (${n('declined')})`],['all',`All (${all.length})`]]
+    .map(([k,l])=>`<button type="button" data-tab="${k}" aria-pressed="${k===tab}">${l}</button>`).join('');
+  const rows=show.map(x=>{
+    const acts=x.status==='pending'
+      ?`<button class="btn" data-set="confirmed" data-id="${x.id}">Confirm</button><button class="btn no" data-set="declined" data-id="${x.id}">Decline</button>`
+      :x.status==='confirmed'?`<button class="btn ghost" data-set="declined" data-id="${x.id}">Cancel stay</button>`
+      :`<button class="btn ghost" data-set="pending" data-id="${x.id}">Reopen</button>`;
+    const mail=`mailto:${encodeURIComponent(x.email)}?subject=${encodeURIComponent('Your Halavar stay '+x.ref)}`;
+    return `<div class="req">
+      <div class="who"><span class="ref">${esc(x.ref)}</span>${x.is_sample?'<span class="sample">Sample</span>':''}<b>${esc(x.name)}</b><a href="${mail}">${esc(x.email)}</a></div>
+      <div class="stay"><b>${esc(vn(x.villa))}</b>${esc(fd(x.arrive))} to ${esc(fd(add(x.arrive,x.nights)))}, ${x.nights} night${x.nights>1?'s':''}, ${x.guests} guest${x.guests>1?'s':''}<div class="note">Sent ${esc(ago(x.created_at))}</div></div>
+      <div><div class="money">${fmt(x.total)}</div><span class="pill ${x.status}">${LABEL[x.status]}</span></div>
+      <div class="acts">${acts}</div>
+      ${x.notes?`<p class="notes">“${esc(x.notes)}”</p>`:''}
+    </div>`}).join('');
+  return `<div class="tabs" role="group" aria-label="Show requests">${tabs}</div>${rows||`<p class="empty">${tab==='pending'?'Nothing waiting. New requests from the website appear here.':'No requests here yet.'}</p>`}`;
+}
+function draw(){
+  const s=stats(), now=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  app.innerHTML=`
+  <div class="head"><h1>Bookings</h1><span class="note" id="stamp">Updated ${now}. Refreshes every 30 seconds.</span>
+    <button class="btn ghost" id="ref">Refresh</button><button class="btn ghost" id="out">Sign out</button></div>
+  <div class="tiles">
+    <div class="tile"><span class="k">Waiting for you</span><b>${s.waiting}</b><span class="note">requests to confirm or decline</span></div>
+    <div class="tile"><span class="k">Confirmed revenue</span><b>${fmt(s.revenue)}</b><span class="note">stays not yet finished</span></div>
+    <div class="tile"><span class="k">Next 30 nights</span><b>${s.occ}%</b><span class="note">of all 12 villas booked or requested</span></div>
+    <div class="tile"><span class="k">New this week</span><b>${s.week}</b><span class="note">requests in the last 7 days</span></div>
+  </div>
+  <section class="card"><h2>Requests</h2><p class="note" style="margin:0">Confirming keeps the dates blocked. Declining frees them on the website straight away.</p>
+    <p class="err" id="lerr" role="alert"></p>${list()}</section>
+  <section class="card"><h2>How full the next 45 nights are</h2><p class="note" style="margin:0">Each square is one night for one villa type; the number after each name is how many villas of that type there are. Requests that are waiting count as booked until you decline them.</p>${heat()}</section>`;
+}
+app.addEventListener('click',async e=>{
+  const t=e.target.closest('button');if(!t)return;
+  if(t.id==='ref'){refresh();return}
+  if(t.id==='out'){pw=null;data=null;gate(true);return}
+  if(t.dataset.tab){tab=t.dataset.tab;draw();return}
+  if(t.dataset.set){
+    t.disabled=true;
+    try{const r=await rpc('owner_update',{p_pw:pw,p_id:t.dataset.id,p_status:t.dataset.set});
+      if(!r.ok){$('lerr').textContent=r.error;t.disabled=false;return}
+      await refresh();
+    }catch(err){$('lerr').textContent=err.message;t.disabled=false}
+  }
+});
+/* tooltip for the heat strip (hover and keyboard focus) */
+const tip=$('tip');
+const show=el=>{const r=el.getBoundingClientRect();tip.textContent=el.dataset.tip;tip.style.opacity=1;
+  const w=tip.offsetWidth;tip.style.left=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2))+'px';tip.style.top=(r.top-36)+'px'};
+const hide=()=>{tip.style.opacity=0};
+app.addEventListener('pointerover',e=>{const b=e.target.closest('[data-tip]');b?show(b):hide()});
+app.addEventListener('focusin',e=>{const b=e.target.closest('[data-tip]');b?show(b):hide()});
+app.addEventListener('pointerleave',hide);addEventListener('scroll',hide,{passive:true});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
+
+rpc('owner_status').then(r=>gate(!!r.has_password)).catch(err=>{app.innerHTML=`<div class="gate"><h1>Can't load</h1><p class="err">${esc(err.message)}</p></div>`});
+}
+</script>
+</body>
+</html>

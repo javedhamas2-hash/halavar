@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halavar Desert Retreat</title>
+<meta name="description" content="A demo website for a made-up desert retreat, with live availability, real booking requests and an owner dashboard.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1d2545">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Halavar Desert Retreat (demo website)">
+<meta property="og:description" content="Twelve stone villas in the dunes, with live availability and online booking. A demo site; the hotel is made up.">
+<meta property="og:image" content="https://javedhamas2-hash.github.io/halavar/img/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d2545'/%3E%3Ccircle cx='16' cy='15' r='6' fill='%23f2c99a'/%3E%3Cpath d='M0 24q8-6 16-2t16-3v13H0z' fill='%23e2b98a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Instrument+Sans:wght@400;500;600;700&family=Reem+Kufi:wght@500&display=swap" rel="stylesheet">
+<style>
+/* VOICE occasion: a hushed, expensive place; few hues, fine detail, lots of air
+   IDEA the retreat's own printed stationery: a night schedule, villa plans and a dinner card, as a guest would get them
+   PICTURE full-bleed dusk photograph; below it a true-time-scale night band from sunset to sunrise
+   COLOUR rammed-earth sand ground, umber ink, dusk indigo bands, oasis teal for what you can act on
+   TYPE Marcellus (carved-stone inscriptions) + Instrument Sans; Reem Kufi for the Arabic name
+   LAYOUT laptop: photo fills the first screen, title in its lower-left corner, booking bar along its foot; phone: photo, title, bar stacked */
+:root{color-scheme:light dark;
+--bg:light-dark(#e5cba6,#17120d);--paper:light-dark(#f1e2c9,#211a13);--ink:light-dark(#2a1b11,#efe1c9);--soft:light-dark(#6b4f39,#bba487);
+--line:light-dark(#c4a27c,#4a3b2c);--night:#1d2545;--night2:#141a33;--nink:#ece3d3;--teal:light-dark(#11786f,#3cc0b2);--pool:light-dark(#a9c2ae,#24504b);--tealink:light-dark(#fff,#08201d)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:112px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.6 "Instrument Sans",system-ui,sans-serif;overflow-x:clip}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:Marcellus,Georgia,serif;font-weight:400;line-height:1.05;letter-spacing:-.01em;text-wrap:balance;margin:0}
+h2{font-size:clamp(32px,4.2vw,52px)}
+h3{font-size:26px}
+p{margin:0 0 1em;max-width:62ch}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(48px,7vw,104px) max(5vw,16px)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border:0;border-radius:999px;background:var(--teal);color:var(--tealink);font:600 16px "Instrument Sans",sans-serif;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:translateY(1px)}
+/* header */
+.demo{position:fixed;inset:0 0 auto;z-index:30;height:34px;display:flex;align-items:center;justify-content:center;padding:0 16px;background:#0b0f22;color:#e6dac6;font-size:13.5px;text-align:center;white-space:nowrap;overflow:hidden}
+.demo .short{display:none}
+.top{position:fixed;inset:34px 0 auto;z-index:20;display:flex;align-items:center;gap:24px;padding:14px max(5vw,16px);color:#f4ead8;transition:background .3s}
+.top.solid{background:color-mix(in srgb,var(--night2) 92%,transparent);backdrop-filter:blur(8px)}
+.mark{display:flex;align-items:baseline;gap:10px;text-decoration:none;margin-right:auto}
+.mark b{font:400 26px Marcellus,serif;letter-spacing:.06em}
+.mark span{font:500 20px "Reem Kufi",sans-serif;opacity:.8}
+.nav{display:flex;gap:22px;flex-wrap:wrap}
+.nav a{text-decoration:none;font-weight:500;opacity:.9}
+.nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
+/* hero */
+.hero{position:relative;min-height:min(100svh,940px);display:grid;align-items:end;color:#f6ecdb;overflow:hidden;background:var(--night)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%;animation:drift 24s ease-out both}
+@keyframes drift{from{transform:scale(1.08)}to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,14,32,.45) 0%,rgba(10,14,32,0) 22%,rgba(10,14,32,0) 48%,rgba(10,10,14,.78) 100%)}
+.hero .in{position:relative;z-index:1;padding:0 max(5vw,16px) 28px;max-width:1340px}
+.hero h1{font-size:clamp(40px,6vw,84px);max-width:13ch}
+.hero p{font-size:19px;color:#e9dcc6;margin:18px 0 28px}
+.book{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) auto;gap:12px;align-items:end;background:rgba(20,16,12,.62);backdrop-filter:blur(10px);border:1px solid rgba(255,240,220,.18);padding:14px;border-radius:16px;max-width:1000px}
+label{display:block;font-size:13.5px;font-weight:600;margin-bottom:6px}
+input,select{width:100%;min-height:46px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:16px "Instrument Sans",sans-serif}
+.book input,.book select{background:rgba(255,248,236,.94);color:#2a1b11;border-color:transparent}
+.book label{color:#f1e4cf}
+/* place */
+.place{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center}
+.place figure{margin:0;border-radius:4px;overflow:hidden;aspect-ratio:4/3}
+.place figure img{width:100%;height:100%;object-fit:cover;object-position:62% 50%}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px;margin:30px 0 0;padding:26px 0 0;border-top:1px solid var(--line)}
+.facts dt{font:400 34px Marcellus,serif;line-height:1}
+.facts dd{margin:6px 0 0;color:var(--soft);font-size:15px}
+/* villas */
+.villas{background:var(--paper)}
+.vgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3vw,36px);margin-top:40px}
+.villa{display:flex;flex-direction:column;border-top:2px solid var(--ink);padding-top:18px}
+.villa svg{width:100%;height:auto;margin:18px 0;background:var(--bg);border-radius:4px}
+.villa svg text{font:12px "Instrument Sans",sans-serif;fill:var(--soft)}
+.spec{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--soft);font-size:15px;margin:8px 0 14px}
+.spec span{white-space:nowrap}
+.price{margin-top:auto;display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:14px}
+.price strong{font:400 28px Marcellus,serif;white-space:nowrap}
+.linkbtn{background:none;border:0;color:var(--teal);font:600 16px "Instrument Sans",sans-serif;cursor:pointer;min-height:44px;padding:0}
+/* night */
+.night{background:var(--night);color:var(--nink)}
+.night p{color:#c9c3d6}
+.bandwrap{position:relative;margin:44px 0 10px;padding-top:58px}
+.sky{height:84px;border-radius:6px;background:linear-gradient(90deg,#e8a25e 0%,#d98a5a 5%,#c96f5a 8%,#5a3f73 12%,#202a55 17%,#0e1330 28%,#0b1029 70%,#2c3466 79%,#b86d7e 84%,#f0b77e 89%,#f6d9a6 100%);position:relative;overflow:hidden}
+.sun{position:absolute;bottom:8px;font-size:12.5px;font-weight:600;color:#fbeee0;white-space:nowrap}
+.sky i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff}
+.tick{position:absolute;top:0;bottom:30px;width:0;border-left:1px dashed rgba(236,227,211,.5)}
+.tick b{position:absolute;top:0;transform:translateX(-50%);font:400 22px Marcellus,serif;white-space:nowrap}
+.tick.first b{transform:none}.tick.last b{transform:translateX(-100%)}
+.axis{position:relative;height:22px;color:#9b97b0;font-size:13.5px;margin-top:8px}
+.axis span{position:absolute;top:0;white-space:nowrap}
+.sched{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,auto);grid-auto-flow:column;gap:0 56px;margin-top:40px}
+.row{display:grid;grid-template-columns:5.2em minmax(0,1fr);gap:18px;padding:18px 0;border-top:1px solid rgba(236,227,211,.16)}
+.row time{font:400 34px Marcellus,serif;line-height:1;color:#f2c99a}
+.row h3{font-size:22px;margin-bottom:6px}
+.row p{margin:0;font-size:15.5px}
+.note{font-size:13.5px;color:var(--soft)}
+.night .note{color:#9b97b0}
+/* dining */
+.dine{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:start}
+.menu{background:var(--paper);border:1px solid var(--line);padding:clamp(24px,4vw,48px);border-radius:4px;text-align:center}
+.menu .dish{padding:16px 0;border-bottom:1px solid var(--line)}
+.menu .dish:last-of-type{border:0}
+.menu h3{font-size:22px}
+.menu p{margin:6px auto 0;font-size:15px;color:var(--soft)}
+/* booking */
+.rates{background:var(--paper)}
+.est{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);margin-top:36px;align-items:start}
+.pick{display:grid;gap:10px;align-content:start}
+.choice{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.choice button{min-height:64px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:600 15px "Instrument Sans",sans-serif;cursor:pointer;padding:8px}
+.choice button[aria-pressed=true]{border:2px solid var(--teal);background:color-mix(in srgb,var(--teal) 12%,var(--bg))}
+.cal{margin-top:8px;border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--bg)}
+.calhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;text-align:center}
+.calhead span{font-size:15px;font-weight:600}
+.calhead span.bad{color:light-dark(#b3402a,#ff8a6e)}
+.calhead button{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;line-height:1;cursor:pointer}
+.calhead button:disabled{opacity:.3;cursor:default}
+.months{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.month h3{font-size:20px;text-align:center;margin:0 0 10px}
+.g7{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));row-gap:3px}
+.dow{font-size:12px;font-weight:600;color:var(--soft);text-align:center;padding-bottom:4px}
+.day{position:relative;height:42px;border:0;background:none;color:var(--ink);font:500 15px "Instrument Sans",sans-serif;cursor:pointer;font-variant-numeric:tabular-nums;padding:0}
+.day:hover:not(:disabled){outline:1px solid var(--line);outline-offset:-1px;border-radius:8px}
+.day:disabled{color:color-mix(in srgb,var(--soft) 40%,transparent);cursor:default}
+.day.full{color:var(--soft);text-decoration:line-through;text-decoration-thickness:1.5px}
+.day.shut{color:color-mix(in srgb,var(--soft) 55%,transparent)}
+.day.low::after{content:"";position:absolute;left:50%;bottom:5px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:#d9822b}
+.day.inr{background:color-mix(in srgb,var(--teal) 18%,transparent)}
+.day.a,.day.d{background:var(--teal);color:var(--tealink);text-decoration:none}
+.day.a{border-radius:10px 0 0 10px}.day.d{border-radius:0 10px 10px 0}.day.a.solo{border-radius:10px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font-size:13.5px;color:var(--soft)}
+.lg{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.lg.sel{background:var(--teal)}.lg.low{width:8px;height:8px;border-radius:50%;background:#d9822b;vertical-align:1px}
+.lg.full{width:14px;height:0;border-top:1.5px solid var(--soft);border-radius:0;vertical-align:4px}.lg.shut{background:color-mix(in srgb,var(--soft) 25%,transparent)}
+.panel{position:sticky;top:124px;display:grid;gap:18px}
+.bill{background:var(--bg);border-radius:12px;padding:clamp(20px,3vw,28px)}
+.when{font-weight:600;margin-top:2px}
+.bill .total{font:400 clamp(40px,5vw,56px) Marcellus,serif;line-height:1;margin:10px 0 14px;white-space:nowrap}
+.bill .total .note{font:400 15px "Instrument Sans",sans-serif}
+.bill table{width:100%;border-collapse:collapse;font-size:15px}
+.bill td{padding:8px 0;border-top:1px solid var(--line)}
+.bill td:last-child{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.guest{display:grid;gap:14px}
+textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:16px/1.5 "Instrument Sans",sans-serif;resize:vertical}
+.btn:disabled{opacity:.45;cursor:default;filter:none;transform:none}
+.warn{color:light-dark(#b3402a,#ff8a6e);font-weight:600;font-size:14.5px;margin:0}
+.warn:empty{display:none}
+.ok{padding:16px;border-radius:12px;background:color-mix(in srgb,var(--teal) 14%,transparent);font-size:15px;outline:none}
+.ok .ref{display:block;font:400 34px Marcellus,serif;margin:6px 0;letter-spacing:.02em}
+/* faq */
+.faq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:clamp(24px,5vw,72px)}
+details{border-top:1px solid var(--line)}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center;min-height:60px;font:400 21px Marcellus,serif}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 26px "Instrument Sans",sans-serif;color:var(--teal);flex:none;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0 0 18px;color:var(--soft)}
+.mbar{display:none}
+/* route */
+.route{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:44px;position:relative}
+.route::before{content:"";position:absolute;left:12.5%;right:37.5%;top:13px;height:4px;background:var(--ink)}
+.route::after{content:"";position:absolute;left:62.5%;right:12.5%;top:13px;border-top:4px dashed var(--ink)}
+.stop{text-align:center;padding:0 8px;position:relative;z-index:1}
+.stop::before{content:"";display:block;width:30px;height:30px;margin:0 auto 14px;border-radius:50%;background:var(--bg);border:4px solid var(--ink)}
+.stop:last-child::before{background:var(--teal);border-color:var(--teal)}
+.stop b{display:block;font:400 22px Marcellus,serif}
+.stop span{color:var(--soft);font-size:14.5px}
+/* footer */
+footer{background:var(--night2);color:#d9d1c2;padding:clamp(40px,6vw,72px) max(5vw,16px) 28px}
+.fgrid{display:grid;grid-template-columns:1.4fr repeat(3,minmax(0,1fr));gap:28px}
+footer h3{font-size:20px;margin-bottom:10px;color:#f1e7d6}
+footer p{font-size:15px;margin:0 0 6px}
+.fine a{color:#e9dcc6}
+.fine{max-width:none;border-top:1px solid rgba(255,255,255,.12);margin-top:36px;padding-top:18px;font-size:13.5px;color:#9e978a}
+@media(max-width:860px){.demo .long{display:none}.demo .short{display:inline}}
+@media(max-width:900px){.book{grid-template-columns:repeat(2,minmax(0,1fr))}.book .btn{grid-column:1/-1}.vgrid{grid-template-columns:minmax(0,1fr)}.villa{max-width:560px}.fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){.nav{display:none}.top{gap:12px}.mark span{display:none}.place,.dine,.est,.faq{grid-template-columns:minmax(0,1fr)}.months{grid-template-columns:minmax(0,1fr)}.panel{position:static}.mbar{position:fixed;left:0;right:0;bottom:0;z-index:25;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--paper);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .25s}.mbar.on{transform:none}footer{padding-bottom:96px}.sched{grid-template-columns:minmax(0,1fr);grid-template-rows:none;grid-auto-flow:row}.tick b{font-size:16px}.tick.alt b{top:28px}.sun{font-size:11px}.route{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}.route::before,.route::after{display:none}}
+@media(max-width:600px){.hero{min-height:auto;padding-top:130px}.hero img{position:relative;height:auto;aspect-ratio:4/3;inset:auto;object-position:58% 60%}.hero::after{display:none}.hero .in{padding-top:22px;background:var(--night)}.hero p{font-size:17px}.book{grid-template-columns:minmax(0,1fr)}.choice{grid-template-columns:minmax(0,1fr)}.facts dt{font-size:28px}.fgrid{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.hero img{animation:none}.mbar,summary::after{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="demo" role="note"><span class="long">Demo website. Halavar is a made-up hotel: booking requests are saved for real, but no stay is booked and nothing is charged.</span><span class="short">Demo website. Halavar is a made-up hotel.</span></div>
+<header class="top" id="top">
+  <a class="mark" href="#home"><b>HALAVAR</b><span>هالافار</span></a>
+  <nav class="nav" aria-label="Sections"><a href="#villas">Villas</a><a href="#night">The night</a><a href="#dining">Dining</a><a href="#getting-here">Getting here</a><a href="#faq">Questions</a></nav>
+  <a class="btn" href="#book">Book a stay</a>
+</header>
+
+<section class="hero" id="home">
+  <img src="img/dusk.jpg" alt="Low stone villas lit from inside, half sunk into dunes at dusk, with a long reflecting pool in front">
+  <div class="in">
+    <h1>Twelve stone villas, half buried in the dunes</h1>
+    <p>A small retreat on the edge of the Empty Quarter, where the evening is the main event.</p>
+    <form class="book" id="quick">
+      <div><label for="q-arrive">Arrive</label><input id="q-arrive" type="date"></div>
+      <div><label for="q-nights">Nights</label><select id="q-nights"></select></div>
+      <div><label for="q-guests">Guests</label><select id="q-guests"></select></div>
+      <div><label for="q-villa">Villa</label><select id="q-villa"></select></div>
+      <button class="btn" type="submit">Check availability</button>
+    </form>
+  </div>
+</section>
+
+<section class="band" id="place">
+  <div class="wrap place">
+    <figure><img src="img/suite.jpg" alt="A villa bedroom with rammed-earth walls, a low linen bed and a full-height window onto the dunes"></figure>
+    <div>
+      <h2>Built from the ground it stands on</h2>
+      <p style="margin-top:20px">The walls are rammed from the site's own sand and lime, sixty centimetres thick, so rooms stay cool at noon and warm at three in the morning. Every villa faces west across open dunes, and there is no other building on that horizon.</p>
+      <p>There are no televisions and the lights are dimmed after ten, so the stars come down to meet you.</p>
+      <dl class="facts">
+        <div><dt>12</dt><dd>villas on 41 km² of private dunes</dd></div>
+        <div><dt>2 h 40</dt><dd>by 4×4 from Abu Dhabi airport</dd></div>
+        <div><dt>Bortle 2</dt><dd>night sky, one step from the darkest on the scale</dd></div>
+        <div><dt>26</dt><dd>guests at most, never more</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="band villas" id="villas">
+  <div class="wrap">
+    <h2>Three ways to stay</h2>
+    <div class="vgrid" id="vgrid"></div>
+  </div>
+</section>
+
+<section class="band night" id="night">
+  <div class="wrap">
+    <h2>A night here runs to the sky's schedule</h2>
+    <p style="margin-top:18px">From sundowner to breakfast, this is one evening in mid-January, drawn to scale. The times move with the seasons; the order never does.</p>
+    <div class="bandwrap" aria-hidden="true">
+      <div class="sky" id="sky"></div>
+      <div id="ticks"></div>
+      <div class="axis"><span style="left:0">4:30 pm</span><span style="left:44.12%;transform:translateX(-50%)">Midnight</span><span style="right:0">9:30 am</span></div>
+    </div>
+    <div class="sched" id="sched"></div>
+  </div>
+</section>
+
+<section class="band" id="dining">
+  <div class="wrap dine">
+    <div>
+      <h2>Dinner is never in the same place twice</h2>
+      <p style="margin-top:20px">Chef Noor Haddad cooks over date-palm wood for twenty-six people at most. Some nights the table is in the courtyard, some nights it is a kilometre out on the sand, lit by two hundred candles and the tail-lights of the 4×4 that carried it there.</p>
+      <p>There is one menu each evening, written that afternoon from what came in from Liwa's farms. Tell us what you cannot eat when you book and it is handled without fuss.</p>
+      <p class="note">Half board is included in Courtyard Villas and the Ridge House.</p>
+    </div>
+    <div class="menu" aria-label="Sample dinner menu">
+      <h3 style="font-size:30px">Tuesday on the dunes</h3>
+      <p style="margin-bottom:10px">A sample evening</p>
+      <div class="dish"><h3>Bread from the sand oven</h3><p>Camel-milk butter, smoked salt, wild thyme</p></div>
+      <div class="dish"><h3>Liwa tomato and dried lime</h3><p>Sheep's yoghurt, pickled shallot, sumac oil</p></div>
+      <div class="dish"><h3>Hamour cooked in palm leaves</h3><p>Saffron broth, charred spring onion</p></div>
+      <div class="dish"><h3>Lamb shoulder, twelve hours in the embers</h3><p>Freekeh, date molasses, mint</p></div>
+      <div class="dish"><h3>Cardamom milk pudding</h3><p>Rose, pistachio, Khalas dates</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band rates" id="book">
+  <div class="wrap">
+    <h2>Book your stay</h2>
+    <p style="margin-top:18px">Availability here is live. Choose a villa, then tap your arrival and departure dates.</p>
+    <form class="est" id="est" novalidate>
+      <div class="pick">
+        <label id="v-label">Villa</label>
+        <div class="choice" id="choice" role="group" aria-labelledby="v-label"></div>
+        <div class="cal">
+          <div class="calhead"><button type="button" id="prev" aria-label="Previous month">‹</button><span id="hint" aria-live="polite">Loading live availability…</span><button type="button" id="next" aria-label="Next month">›</button></div>
+          <div class="months" id="months"></div>
+          <div class="legend" aria-hidden="true"><span><i class="lg sel"></i>Your stay</span><span><i class="lg low"></i>Last villa left</span><span><i class="lg full"></i>Fully booked</span><span><i class="lg shut"></i>Closed season</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="bill" aria-live="polite">
+          <div class="note">Your stay</div>
+          <div class="when" id="when">Pick your dates on the calendar</div>
+          <div class="total" id="total"></div>
+          <table><tbody id="lines"></tbody></table>
+        </div>
+        <div class="guest">
+          <div><label for="e-guests">Guests</label><select id="e-guests"></select></div>
+          <div><label for="e-name">Full name</label><input id="e-name" autocomplete="name" maxlength="80"></div>
+          <div><label for="e-email">Email</label><input id="e-email" type="email" autocomplete="email" maxlength="120"></div>
+          <div><label for="e-notes">Anything we should know? <span class="note">Optional</span></label><textarea id="e-notes" rows="3" maxlength="500"></textarea></div>
+          <button class="btn" type="submit" id="send" disabled>Request these dates</button>
+          <p class="warn" id="warn" role="alert"></p>
+          <div id="done"></div>
+          <p class="note" style="margin:0">You pay nothing now. Requests go to the owner's dashboard to confirm. On this demo no stay is booked and no email is sent.</p>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="band" id="getting-here">
+  <div class="wrap">
+    <h2>The last eighteen kilometres are sand</h2>
+    <p style="margin-top:18px">We collect you from Abu Dhabi International. The tarmac runs out after Liwa; from there a driver who grew up here takes the dunes the slow way, timed so you arrive as the light turns.</p>
+    <div class="route">
+      <div class="stop"><b>Abu Dhabi airport</b><span>Pick-up at arrivals</span></div>
+      <div class="stop"><b>Madinat Zayed</b><span>1 h 30 · coffee stop</span></div>
+      <div class="stop"><b>Liwa</b><span>2 h 10 · tarmac ends</span></div>
+      <div class="stop"><b>Halavar</b><span>2 h 40 · 18 km on sand</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="faq">
+  <div class="wrap faq">
+    <h2>Before you come</h2>
+    <div>
+      <details><summary>When can I check in and out?</summary><p>Villas are ready from 2 pm and we ask you to leave by noon. Transfers are timed to reach the dunes before sunset, so most guests arrive around five.</p></details>
+      <details><summary>Can children stay?</summary><p>Children aged six and over are welcome in Courtyard Villas and the Ridge House. Dune Rooms are for two adults.</p></details>
+      <details><summary>What does the rate include?</summary><p>Breakfast, sundowners on the ridge and telescope hour. Courtyard Villas and the Ridge House also include dinner. Transfers are charged separately, one 4×4 each way for up to three guests.</p></details>
+      <details><summary>Can I cancel?</summary><p>Cancel up to 21 days before arrival and nothing is charged. After that, the first night is charged.</p></details>
+      <details><summary>When is Halavar open?</summary><p>From October to April. We close from May to September, when the afternoon heat passes 45 °C.</p></details>
+      <details><summary>Is there phone signal?</summary><p>Signal reaches the main house only. Villas have Wi-Fi on request, though most guests leave it off.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><a class="mark" href="#home" style="color:#f1e7d6"><b>HALAVAR</b><span>هالافار</span></a><p style="margin-top:14px;max-width:34ch">Twelve villas, one table, and the darkest sky most guests have ever seen.</p></div>
+      <div><h3>Write to us</h3><p>reservations@halavar.example</p><p>Replies within a day</p></div>
+      <div><h3>Find us</h3><p>Al Dhafra Region</p><p>Abu Dhabi, UAE</p></div>
+      <div><h3>Season</h3><p>Open October to April</p><p>Closed for the summer heat</p></div>
+    </div>
+    <p class="fine">Halavar is a made-up hotel built as a website demo: the place, people, prices and email address are invented, and the photographs were generated with AI in Weavy. Booking requests are stored in a real database, but no stay is booked. <a href="admin.html">Owner dashboard</a></p>
+  </div>
+</footer>
+
+<div class="mbar" id="mbar"><div><strong>From AED 3,900</strong> <span class="note">a night</span></div><a class="btn" href="#book">Book a stay</a></div>
+<script>
+{
+const villas=[
+  {id:'dune',name:'Dune Room',size:64,sleeps:2,units:6,rate:3900,note:'One room, a sunken bath and a terrace facing the ridge.',
+   rooms:[[10,10,170,110,'Bedroom'],[180,10,90,60,'Bath'],[180,70,90,50,'Dressing'],[10,120,260,60,'Terrace']]},
+  {id:'court',name:'Courtyard Villa',size:140,sleeps:3,units:4,rate:6800,note:'Rooms wrapped around a shaded courtyard with its own plunge pool.',
+   rooms:[[10,10,120,90,'Bedroom'],[130,10,140,90,'Living'],[10,100,80,80,'Bath'],[90,100,110,80,'Courtyard'],[200,100,70,80,'Pool',1]]},
+  {id:'ridge',name:'Ridge House',size:310,sleeps:5,units:2,rate:14500,note:'Two bedrooms, a kitchen of its own and a twenty-metre pool on the ridge.',
+   rooms:[[10,10,90,80,'Bedroom'],[100,10,90,80,'Bedroom'],[190,10,80,80,'Kitchen'],[10,90,180,50,'Living'],[190,90,80,50,'Bath'],[10,140,260,40,'Pool',1]]}];
+const night=[
+  {t:'5:30',h:17.5,title:'Sundowners on the ridge',d:'Drinks on the highest dune. The sun goes at 5:52 and the villas light up below you.'},
+  {t:'7:30',h:19.5,title:'Dinner on the sand',d:'One table, one menu, candles to the horizon.'},
+  {t:'9:00',h:21,title:'Telescope hour',d:'Our astronomer finds Jupiter\'s moons, the Orion Nebula and the Pleiades.'},
+  {t:'11:00',h:23,title:'Fire pit and quiet',d:'Lights dim across the retreat. Blankets, mint tea, no music.'},
+  {t:'6:30',h:30.5,title:'First-light walk',d:'Follow a tracker along the overnight prints of sand foxes and jerboa, back before the 7:06 sunrise.'},
+  {t:'8:30',h:32.5,title:'Breakfast in the courtyard',d:'Eggs with za\'atar, fresh laban, coffee with cardamom.'}];
+const fee=.16, transfer=1200;
+const $=id=>document.getElementById(id);
+const fmt=n=>'AED '+Math.round(n).toLocaleString('en-US');
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* villas with floor plans */
+const plan=v=>`<svg viewBox="0 0 280 190" role="img" aria-label="Floor plan of the ${v.name}">${v.rooms.map(([x,y,w,h,l,p])=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" style="fill:${p?'var(--pool)':'none'};stroke:var(--ink);stroke-width:${p?1.5:2.5}px"/><text x="${x+w/2}" y="${y+h/2+4}" text-anchor="middle">${l}</text>`).join('')}<line x1="10" y1="186" x2="70" y2="186" style="stroke:var(--soft);stroke-width:2px"/><text x="76" y="189" text-anchor="start" style="font-size:10px">5 m</text></svg>`;
+$('vgrid').innerHTML=villas.map(v=>`<article class="villa"><h3>${v.name}</h3><div class="spec"><span>${v.size} m²</span><span>Sleeps ${v.sleeps}</span></div><p style="margin:0">${v.note}</p>${plan(v)}<div class="price"><div><strong>${fmt(v.rate)}</strong> <span class="note">a night</span></div><button class="linkbtn" data-pick="${v.id}">Book this villa</button></div></article>`).join('');
+
+/* night band at true time scale, 4:30 pm to 9:30 am */
+const pos=h=>(h-16.5)/17*100;
+const sky=$('sky');let s=7;
+sky.innerHTML=Array.from({length:70},()=>{s=s*16807%2147483647;const x=20+(s%5600)/100;s=s*16807%2147483647;const y=(s%9000)/100;s=s*16807%2147483647;return `<i style="left:${x}%;top:${y}%;opacity:${.35+(s%60)/100}"></i>`}).join('');
+sky.insertAdjacentHTML('beforeend',`<span class="sun" style="left:${pos(17.87)+.8}%">sunset 5:52</span><span class="sun" style="right:${100-pos(31.1)+.8}%">sunrise 7:06</span>`);
+$('ticks').innerHTML=night.map((n,i)=>`<div class="tick${i%2?' alt':''}${i?'':' first'}${i==night.length-1?' last':''}" style="left:${pos(n.h)}%"><b>${n.t}</b></div>`).join('');
+$('sched').innerHTML=night.map(n=>`<div class="row"><time>${n.t}</time><div><h3>${n.title}</h3><p>${n.d}</p></div></div>`).join('');
+
+/* booking: live availability and requests from the database */
+const SB='https://qpxdctbhnlqgfefxqiok.supabase.co/rest/v1/rpc/', KEY='sb_publishable_r6GD32Q57EbcoxJOMdLENQ_AdrtX9kb';
+const rpc=async(fn,body)=>{
+  let r;
+  try{r=await fetch(SB+fn,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(body)})}
+  catch{throw new Error('Could not reach the booking system. Check your connection and try again.')}
+  const j=await r.json().catch(()=>null);
+  if(!r.ok)throw new Error((j&&j.message)||'Something went wrong. Try again.');
+  return j;
+};
+const D=t=>new Date(t+'T00:00:00Z'), iso=d=>d.toISOString().slice(0,10);
+const add=(t,n)=>{const d=D(t);d.setUTCDate(d.getUTCDate()+n);return iso(d)};
+const gap=(a,b)=>Math.round((D(b)-D(a))/864e5);
+const madd=(m,n)=>{const d=D(m);d.setUTCMonth(d.getUTCMonth()+n);return iso(d)};
+const fd=(t,o={weekday:'short',day:'numeric',month:'short'})=>D(t).toLocaleDateString('en-GB',{timeZone:'UTC',...o});
+const dm=t=>fd(t,{day:'numeric',month:'short'});
+const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Dubai'}).format(new Date());
+const firstView=today.slice(0,8)+'01', lastView=madd(firstView,12);
+const shut=t=>{const m=+t.slice(5,7);return m>=5&&m<=9};
+let taken=new Map(), loaded=false;
+const book={villa:'court',guests:2,a:null,d:null,view:firstView};
+const V=()=>villas.find(x=>x.id===book.villa);
+const left=(v,t)=>villas.find(x=>x.id===v).units-(taken.get(v+'|'+t)||0);
+const blocked=(v,t)=>shut(t)||left(v,t)<=0;
+const problem=()=>{
+  if(!book.a||!loaded)return null;
+  for(let t=book.a;t<(book.d||add(book.a,1));t=add(t,1)){
+    if(shut(t))return `Halavar is closed from May to September, so ${dm(t)} can't be booked.`;
+    if(left(book.villa,t)<=0)return `The ${V().name} is fully booked on the night of ${dm(t)}. Pick other dates or another villa.`;
+  }
+  return null;
+};
+const hint=(t,bad)=>{const h=$('hint');h.textContent=t;h.classList.toggle('bad',!!bad)};
+const phone=matchMedia('(max-width:720px)');
+
+const opts=(el,arr,val)=>{el.innerHTML=arr.map(([v,l])=>`<option value="${v}"${v==val?' selected':''}>${l}</option>`).join('')};
+const guestArr=Array.from({length:5},(_,i)=>[i+1,`${i+1} guest${i?'s':''}`]);
+opts($('q-nights'),Array.from({length:14},(_,i)=>[i+1,`${i+1} night${i?'s':''}`]),3);
+opts($('q-guests'),guestArr,2);opts($('e-guests'),guestArr,2);
+opts($('q-villa'),villas.map(v=>[v.id,v.name]),'court');
+$('q-arrive').min=today;$('q-arrive').max=add(today,365);
+$('choice').innerHTML=villas.map(v=>`<button type="button" data-v="${v.id}" aria-pressed="false">${v.name}<br><span class="note">${fmt(v.rate)} a night</span></button>`).join('');
+
+function drawCal(){
+  const count=phone.matches?1:2;
+  if(madd(book.view,count-1)>lastView)book.view=madd(lastView,1-count);
+  if(book.view<firstView)book.view=firstView;
+  $('prev').disabled=book.view<=firstView;
+  $('next').disabled=madd(book.view,count-1)>=lastView;
+  let html='';
+  for(let k=0;k<count;k++){
+    const m=madd(book.view,k), d0=D(m), lead=(d0.getUTCDay()+6)%7;
+    const dim=new Date(Date.UTC(d0.getUTCFullYear(),d0.getUTCMonth()+1,0)).getUTCDate();
+    html+=`<div class="month"><h3>${fd(m,{month:'long',year:'numeric'})}</h3><div class="g7">`+
+      ['Mo','Tu','We','Th','Fr','Sa','Su'].map(x=>`<span class="dow" aria-hidden="true">${x}</span>`).join('')+'<span></span>'.repeat(lead);
+    for(let i=1;i<=dim;i++){
+      const t=m.slice(0,8)+String(i).padStart(2,'0'), past=t<today, c=[];
+      let label=fd(t,{weekday:'long',day:'numeric',month:'long'});
+      if(!past){
+        if(shut(t)){c.push('shut');label+=', closed season'}
+        else if(loaded){const l=left(book.villa,t);if(l<=0){c.push('full');label+=', fully booked'}else if(l===1){c.push('low');label+=', last villa left'}}
+      }
+      if(t===book.a){c.push('a');if(!book.d)c.push('solo');label+=', arrival'}
+      if(t===book.d){c.push('d');label+=', departure'}
+      if(book.a&&book.d&&t>book.a&&t<book.d)c.push('inr');
+      html+=`<button type="button" class="day ${c.join(' ')}" data-d="${t}"${past?' disabled':''} aria-label="${label}">${i}</button>`;
+    }
+    html+='</div></div>';
+  }
+  $('months').innerHTML=html;
+}
+function drawBill(){
+  const v=V(), n=book.a&&book.d?gap(book.a,book.d):0, cars=Math.ceil(book.guests/3);
+  for(const b of $('choice').querySelectorAll('button'))b.setAttribute('aria-pressed',b.dataset.v===book.villa);
+  if(!n){
+    $('when').textContent=book.a?`Arrive ${fd(book.a)}. Now pick your departure date.`:'Pick your dates on the calendar';
+    $('total').innerHTML=`${fmt(v.rate)} <span class="note">a night</span>`;$('lines').innerHTML='';
+  }else{
+    const stay=v.rate*n,tr=transfer*2*cars,tax=(stay+tr)*fee;
+    $('when').textContent=`${fd(book.a)} to ${fd(book.d)}, ${n} night${n>1?'s':''}`;
+    $('total').textContent=fmt(stay+tr+tax);
+    $('lines').innerHTML=[[`${v.name}, ${n} night${n>1?'s':''} × ${fmt(v.rate)}`,stay],[`Transfers, ${cars} car${cars>1?'s':''} each way`,tr],['Service and taxes, 16%',tax]].map(([l,x])=>`<tr><td>${l}</td><td>${fmt(x)}</td></tr>`).join('');
+  }
+  const p=problem(), over=book.guests>v.sleeps;
+  $('warn').textContent=over?`The ${v.name} sleeps ${v.sleeps}. Choose a larger villa or fewer guests.`:(p||'');
+  $('send').disabled=!n||!!p||over||!loaded;
+}
+const draw=()=>{drawCal();drawBill()};
+
+async function loadAvail(){
+  const rows=await rpc('availability',{p_from:today,p_to:add(today,400)});
+  taken=new Map(rows.map(r=>[r.villa+'|'+r.night,r.taken]));loaded=true;
+}
+function firstFree(n){
+  for(let t=add(today,10),i=0;i<200;i++,t=add(t,1)){
+    let ok=true;for(let k=0;k<n;k++)if(blocked(book.villa,add(t,k))){ok=false;break}
+    if(ok)return t;
+  }
+  return null;
+}
+
+$('months').addEventListener('click',e=>{
+  const b=e.target.closest('.day');if(!b||b.disabled||!loaded)return;
+  const t=b.dataset.d;$('done').innerHTML='';
+  if(book.a&&!book.d&&t>book.a){
+    if(gap(book.a,t)>14){hint('Stays are up to 14 nights. Pick an earlier departure.',true);return}
+    book.d=t;const p=problem();
+    if(p){book.d=null;hint(p,true)}else hint(`${gap(book.a,t)} night${gap(book.a,t)>1?'s':''} selected. Add your details to send the request.`);
+    draw();return;
+  }
+  if(blocked(book.villa,t)){hint(shut(t)?'Halavar is closed from May to September.':`The ${V().name} is fully booked on ${dm(t)}. Try another date or villa.`,true);return}
+  book.a=t;book.d=null;hint('Now tap your departure date.');draw();
+});
+$('prev').addEventListener('click',()=>{book.view=madd(book.view,-1);drawCal()});
+$('next').addEventListener('click',()=>{book.view=madd(book.view,1);drawCal()});
+phone.addEventListener('change',drawCal);
+$('choice').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;book.villa=b.dataset.v;$('done').innerHTML='';
+  const p=problem();hint(p||(book.a&&book.d?'Same dates, new villa.':book.a?'Now tap your departure date.':'Tap your arrival date.'),!!p);draw()});
+$('vgrid').addEventListener('click',e=>{const b=e.target.closest('[data-pick]');if(!b)return;book.villa=b.dataset.pick;
+  const p=problem();if(p)hint(p,true);draw();$('book').scrollIntoView()});
+$('e-guests').addEventListener('change',e=>{book.guests=+e.target.value;drawBill()});
+$('quick').addEventListener('submit',e=>{
+  e.preventDefault();book.villa=$('q-villa').value;book.guests=+$('q-guests').value;$('e-guests').value=book.guests;
+  const a=$('q-arrive').value,n=+$('q-nights').value;
+  if(a&&a>=today){book.a=a;book.d=add(a,n);book.view=a.slice(0,8)+'01';const p=problem();
+    if(p){book.d=null;book.a=null;hint(p,true)}else hint(`${n} night${n>1?'s':''} selected. Add your details to send the request.`)}
+  $('done').innerHTML='';draw();$('book').scrollIntoView();
+});
+$('est').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const name=$('e-name').value.trim(), email=$('e-email').value.trim(), btn=$('send');
+  if(!book.a||!book.d){$('warn').textContent='Pick your arrival and departure dates on the calendar.';return}
+  if(name.length<2){$('warn').textContent='Enter the guest name.';$('e-name').focus();return}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){$('warn').textContent='Enter a valid email address.';$('e-email').focus();return}
+  btn.disabled=true;btn.textContent='Sending request…';$('warn').textContent='';
+  try{
+    const r=await rpc('request_booking',{p_villa:book.villa,p_arrive:book.a,p_nights:gap(book.a,book.d),p_guests:book.guests,p_name:name,p_email:email,p_notes:$('e-notes').value.trim()||null});
+    book.a=null;book.d=null;$('e-notes').value='';
+    await loadAvail().catch(()=>{});
+    btn.textContent='Request these dates';draw();
+    hint('Request sent. Tap a date to plan another stay.');
+    $('done').innerHTML=`<div class="ok" id="okmsg" tabindex="-1"><strong>Request received.</strong> Your reference is <span class="ref">${esc(r.ref)}</span>${esc(r.villa)}, arriving ${esc(fd(r.arrive))} for ${+r.nights} night${r.nights>1?'s':''}, ${fmt(r.total)}. It is now waiting for the owner to confirm. This is a demo, so no email is sent and nothing is charged.</div>`;
+    $('okmsg').focus();
+  }catch(err){
+    await loadAvail().catch(()=>{});
+    btn.textContent='Request these dates';draw();$('warn').textContent=err.message;
+  }
+});
+
+/* phone: booking bar appears once the hero and the booking form are out of view */
+{const mbar=$('mbar'),seen=new Set();
+ const mo=new IntersectionObserver(es=>{for(const en of es)en.isIntersecting?seen.add(en.target):seen.delete(en.target);mbar.classList.toggle('on',seen.size===0)});
+ [$('home'),$('book'),document.querySelector('footer')].forEach(el=>mo.observe(el));}
+
+draw();
+loadAvail().then(()=>{
+  book.a=firstFree(3);book.d=book.a&&add(book.a,3);
+  if(book.a)book.view=book.a.slice(0,8)+'01';
+  hint('Tap a date to change your arrival.');draw();
+}).catch(()=>{hint('Live availability could not load. Refresh the page to try again.',true);draw()});
+
+/* header turns solid after the hero */
+const top=$('top');const io=new IntersectionObserver(([en])=>top.classList.toggle('solid',!en.isIntersecting),{rootMargin:'-80px 0px 0px 0px'});io.observe(document.querySelector('.hero h1'));
+}
+</script>
+</body>
+</html>
