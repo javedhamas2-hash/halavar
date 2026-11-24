@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hollywood Ladies Salon – sample design</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2a1220">
+<meta property="og:title" content="Hollywood Ladies Salon – sample website">
+<meta property="og:description" content="A sample booking website prepared for Hollywood Ladies Salon by Hamas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;1,6..96,500&family=Hanken+Grotesk:wght@400;500;600;700&family=Amiri:wght@700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Idea: the backstage dressing-room mirror. The hero is a vanity mirror ringed with bulbs that switch on one by one;
+   the rest is quiet: powder-pink ground, aubergine ink, one rouge colour for everything you can press. */
+:root{--ground:#f6e9e3;--paper:#fff8f4;--ink:#2a1220;--soft:#6e4a5a;--line:#e7cfc6;--plum:#2a1220;--plum2:#3a1a2c;
+--rouge:#b0244e;--rougeink:#fff;--bulb:#ffd27a;--glow:rgba(255,206,120,.55);--ok:#1f7a4a;
+--display:"Bodoni Moda",Georgia,serif;--body:"Hanken Grotesk",system-ui,sans-serif}
+html[lang=ar]{--display:"Amiri",serif;--body:"Tajawal",system-ui,sans-serif}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--ground);color:var(--ink);font:16.5px/1.6 var(--body);overflow-x:clip}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.08;margin:0;text-wrap:balance}
+p{margin:0 0 1em;max-width:60ch}
+a{color:inherit}
+button,input,select{font:inherit}
+:focus-visible{outline:3px solid var(--rouge);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;border:0;background:var(--rouge);color:var(--rougeink);font-weight:700;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn.ghost{background:transparent;color:inherit;border:1.5px solid currentColor}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.6;cursor:progress}
+.note{font-size:14px;color:var(--soft)}
+/* sample banner + header */
+.sample{background:#140910;color:#f3dfe6;font-size:13.5px;text-align:center;padding:8px 16px;line-height:1.4}
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ground) 94%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;min-height:64px}
+.mark{display:flex;flex-direction:column;line-height:1;text-decoration:none;margin-inline-end:auto}
+.mark b{font:italic 500 27px var(--display)}
+html[lang=ar] .mark b{font-style:normal;font-size:24px}
+.mark span{font-size:12.5px;letter-spacing:.04em;color:var(--soft);margin-top:3px}
+.nav{display:flex;gap:20px}
+.nav a{text-decoration:none;font-weight:600}
+.lang{display:flex;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden}
+.lang button{border:0;background:transparent;min-height:36px;padding:0 12px;cursor:pointer;font-weight:700;color:var(--ink)}
+.lang button[aria-pressed=true]{background:var(--ink);color:var(--ground)}
+/* hero: the mirror */
+.hero{background:radial-gradient(120% 80% at 50% 30%,var(--plum2),var(--plum) 70%);color:#f7e8ee;padding:34px 0 48px}
+.mirror{position:relative;margin:0 auto;max-width:720px;border-radius:28px;padding:56px 56px 60px;background:linear-gradient(160deg,#3d1f31,#22101b);box-shadow:0 0 0 10px #4b2a3b,0 0 0 12px #1b0b14,0 30px 60px rgba(0,0,0,.45);text-align:center}
+.bulb{position:absolute;width:20px;height:20px;border-radius:50%;background:#6b5560;transform:translate(-50%,-50%);transition:background .35s,box-shadow .35s}
+.bulb.on{background:radial-gradient(circle at 40% 35%,#fffbe8,var(--bulb) 55%,#e6a94a);box-shadow:0 0 14px 4px var(--glow),0 0 40px 8px rgba(255,190,100,.25)}
+.hero h1{font-size:clamp(34px,6.2vw,60px);margin:6px 0 14px}
+.hero p{margin:0 auto 24px;color:#e7cfd9;font-size:18px}
+.hero .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero .btn.ghost{color:#f7e8ee}
+.rating{display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px;margin-top:22px;font-size:14.5px;color:#e7cfd9}
+.rating b{font:600 22px var(--display);color:#fff}
+.open{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+.open::before{content:"";width:9px;height:9px;border-radius:50%;background:#8a7a80;flex:none}
+.open.yes::before{background:#3fcf7f;box-shadow:0 0 0 4px rgba(63,207,127,.18)}
+.hero .open{display:flex;justify-content:center;margin:12px auto 0;font-size:14.5px;color:#e7cfd9}
+/* sections */
+section.band{padding:56px 0}
+.head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.head h2{font-size:clamp(30px,4.6vw,44px)}
+/* price menu: every row books that service */
+.menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.cat{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px}
+.cat h3{font-size:24px;margin-bottom:10px}
+.item{display:flex;align-items:baseline;gap:8px;width:calc(100% + 12px);padding:10px 6px;margin:0 -6px;border:0;border-top:1px dashed var(--line);background:none;color:var(--ink);text-align:start;cursor:pointer;border-radius:8px}
+.item:hover{background:color-mix(in srgb,var(--rouge) 7%,transparent)}
+.item span{white-space:nowrap}
+.item i{flex:1;border-bottom:1px dotted #c9a9a0;transform:translateY(-4px)}
+.item b{font-weight:600;color:var(--soft);white-space:nowrap}
+.item em{font-style:normal;font-weight:700;font-size:13.5px;color:var(--rouge);opacity:0;transition:opacity .15s}
+.item:hover em,.item:focus-visible em{opacity:1}
+/* bridal */
+.bridal{background:var(--plum);color:#f7e8ee}
+.bridal .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:center}
+.bridal p{color:#e7cfd9}
+.veil{aspect-ratio:4/5;border-radius:200px 200px 24px 24px;background:radial-gradient(70% 50% at 50% 20%,#5a2d45,transparent),repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 2px,transparent 2px 14px),#3a1a2c;display:grid;place-items:center;text-align:center;padding:30px;border:1px solid #5a3448}
+.veil b{font:italic 600 34px var(--display);color:var(--bulb)}
+html[lang=ar] .veil b{font-style:normal}
+/* booking */
+.book{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.9fr);gap:28px;align-items:start}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px}
+label,.lbl{display:block;font-weight:700;font-size:14px;margin:0 0 8px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.seg button,.chips button,.slots button{border:1.5px solid var(--line);background:#fff;border-radius:14px;min-height:48px;cursor:pointer;font-weight:600;color:var(--ink)}
+.seg button[aria-pressed=true],.chips button[aria-pressed=true],.slots button[aria-pressed=true]{border-color:var(--rouge);background:color-mix(in srgb,var(--rouge) 10%,#fff);color:var(--rouge)}
+select,input[type=text]{width:100%;min-height:48px;border-radius:14px;border:1.5px solid var(--line);background:#fff;padding:0 12px;color:var(--ink);margin-bottom:18px}
+input[type=text]{margin-bottom:6px}
+.hint{font-size:13px;color:var(--soft);margin:0 0 18px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:18px;scrollbar-width:thin}
+.chips button{flex:none;width:64px;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15}
+.chips button small{font-weight:500;font-size:12px;color:var(--soft)}
+.slots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:20px}
+.slots button{font-size:14.5px}
+.slots button:disabled{opacity:.35;text-decoration:line-through;cursor:default}
+.err{color:var(--rouge);font-weight:600;font-size:14.5px;margin:10px 0 0;display:none}
+.err.show{display:block}
+/* live status after booking */
+.live{margin-top:16px;padding:16px;border-radius:16px;background:#fff;border:1.5px solid var(--line);display:none}
+.live.show{display:block}
+.live .state{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;margin-bottom:6px}
+.dot{width:10px;height:10px;border-radius:50%;background:#d39a2c;flex:none}
+.live[data-s=new] .dot{animation:pulse 1.4s ease-in-out infinite}
+.live[data-s=confirmed]{border-color:#9fd3b6;background:#eef8f2}.live[data-s=confirmed] .dot{background:var(--ok)}
+.live[data-s=declined] .dot{background:var(--rouge)}
+.live[data-s=suggested]{border-color:#e9c27a;background:#fff8ea}
+@keyframes pulse{50%{transform:scale(1.5);opacity:.5}}
+.live p{margin:0 0 4px;font-size:15px}
+.live .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.live .acts:empty{display:none}
+.live .btn{min-height:42px;padding:0 16px;font-size:15px}
+.live .btn.ghost{color:var(--ink)}
+/* the salon's phone */
+.phone{background:#140910;border-radius:34px;padding:14px;max-width:340px;margin:0 auto;box-shadow:0 20px 40px rgba(42,18,32,.25)}
+.screen{background:#f3ece8;border-radius:24px;padding:16px;min-height:300px}
+.screen .bar{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:#4d4d4d;margin-bottom:12px}
+.screen .bar b{font:italic 600 17px var(--display);color:var(--ink)}
+html[lang=ar] .screen .bar b{font-style:normal}
+.notif{background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.08);font-size:14.5px}
+.notif.new{animation:pop .5s ease}
+@keyframes pop{from{transform:translateY(8px);opacity:0}}
+.notif strong{display:block;font-size:16px;margin-bottom:2px}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:700;background:#fbe7c4;color:#7a4c00;margin-bottom:8px}
+.pill.confirmed{background:#d7f0e1;color:#155f39}.pill.declined{background:#f6d9e1;color:var(--rouge)}
+.notif .acts{display:flex;gap:8px;margin-top:12px}
+.notif .acts span{flex:1;text-align:center;border-radius:10px;padding:8px 6px;font-weight:700;font-size:13.5px}
+.notif .acts span:first-child{background:var(--ok);color:#fff}
+.notif .acts span:last-child{background:#f0ece8}
+.under{text-align:center;margin-top:16px}
+.under .btn.ghost{color:var(--ink)}
+.under p{max-width:none}
+/* branches */
+.branches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.br{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:24px}
+.br h3{font-size:28px;margin-bottom:8px}
+.br .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.br .btn.ghost{color:var(--ink);min-height:44px}
+.br .open{font-size:14.5px;margin:0 0 4px}
+footer{background:#140910;color:#d9c3cc;padding:30px 0 90px;font-size:14px}
+.mbook{display:none}
+@media(max-width:860px){.menu{grid-template-columns:minmax(0,1fr)}.bridal .wrap,.book{grid-template-columns:minmax(0,1fr)}.veil{max-width:320px;margin:0 auto;aspect-ratio:1}.branches{grid-template-columns:minmax(0,1fr)}.item em{opacity:1}}
+@media(max-width:640px){.nav{display:none}.mirror{padding:50px 34px 66px;border-radius:22px}.hero p{font-size:16.5px}.bulb{width:14px;height:14px}
+ .mbook{display:flex;position:fixed;inset:auto 0 0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--paper);border-top:1px solid var(--line)}.mbook .btn{flex:1}}
+@media(prefers-reduced-motion:reduce){.bulb{transition:none}.notif.new{animation:none}.live .dot{animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="sample" data-t="banner"></div>
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="#home"><b data-t="name1"></b><span data-t="name2"></span></a>
+    <nav class="nav"><a href="#services" data-t="navServices"></a><a href="#bridal" data-t="navBridal"></a><a href="#branches" data-t="navBranches"></a></nav>
+    <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="ar" aria-pressed="false">عربي</button></div>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="mirror" id="mirror">
+      <h1 data-t="heroTitle"></h1>
+      <p data-t="heroSub"></p>
+      <div class="ctas"><a class="btn" href="#book" data-t="ctaBook"></a><a class="btn ghost" href="tel:+971585865070" data-t="ctaCall"></a></div>
+      <div class="rating"><b>4.7</b><span data-t="rating"></span></div>
+      <p class="open" id="openHero"></p>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="services">
+  <div class="wrap">
+    <div class="head"><h2 data-t="servicesTitle"></h2><p class="note" style="margin:0" data-t="pricesNote"></p></div>
+    <div class="menu" id="menu"></div>
+  </div>
+</section>
+
+<section class="band bridal" id="bridal">
+  <div class="wrap">
+    <div>
+      <h2 style="font-size:clamp(32px,5vw,48px)" data-t="bridalTitle"></h2>
+      <p style="margin-top:16px" data-t="bridalText"></p>
+      <a class="btn" href="#book" data-bridal data-t="bridalCta"></a>
+    </div>
+    <div class="veil"><div><b data-t="bridalBig"></b><p class="note" style="color:#d9c3cc;margin:10px auto 0" data-t="bridalPhoto"></p></div></div>
+  </div>
+</section>
+
+<section class="band" id="book">
+  <div class="wrap">
+    <div class="head"><h2 data-t="bookTitle"></h2></div>
+    <div class="book">
+      <form class="panel" id="form" novalidate>
+        <span class="lbl" data-t="branch"></span>
+        <div class="seg" id="seg" role="group"><button type="button" data-b="rigga" aria-pressed="true" data-t="rigga"></button><button type="button" data-b="karama" aria-pressed="false" data-t="karama"></button></div>
+        <label for="svc" data-t="service"></label>
+        <select id="svc"></select>
+        <span class="lbl" data-t="day"></span>
+        <div class="chips" id="days" role="group"></div>
+        <span class="lbl" data-t="time"></span>
+        <div class="slots" id="slots" role="group"></div>
+        <label for="nm" data-t="yourName"></label>
+        <input type="text" id="nm" maxlength="30" autocomplete="off">
+        <p class="hint" data-t="nameHint"></p>
+        <button class="btn" style="width:100%" type="submit" id="send" data-t="request"></button>
+        <p class="err" id="err" role="alert"></p>
+        <div class="live" id="live" role="status" aria-live="polite"></div>
+      </form>
+      <div>
+        <p class="lbl" style="text-align:center" data-t="ownerSees"></p>
+        <div class="phone"><div class="screen"><div class="bar"><b data-t="name1"></b><span data-t="salonView"></span></div><div class="notif" id="notif"></div></div></div>
+        <div class="under"><a class="btn ghost" href="salon.html" target="_blank" rel="noopener" data-t="openSalon"></a><p class="note" style="margin:10px auto 0" data-t="openSalonNote"></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="branches" style="padding-top:20px">
+  <div class="wrap">
+    <div class="head"><h2 data-t="branchesTitle"></h2></div>
+    <div class="branches">
+      <div class="br"><h3 data-t="rigga"></h3><p data-t="riggaAddr"></p><p class="open" id="openRigga"></p><p class="note" data-t="riggaHours"></p>
+        <div class="acts"><a class="btn" href="tel:+971585865070" data-t="call"></a><a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Hollywood%20Ladies%20Salon%20Al%20Rigga%20Road%20Deira" data-t="directions"></a></div>
+        <p class="note" style="margin:12px 0 0" dir="ltr">+971 58 586 5070</p></div>
+      <div class="br"><h3 data-t="karama"></h3><p data-t="karamaAddr"></p><p class="note" data-t="karamaHours"></p>
+        <div class="acts"><a class="btn" href="tel:+971556859423" data-t="call"></a><a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Hollywood%20Ladies%20Salon%20Khalid%20Al%20Attar%20Building%20Al%20Karama" data-t="directions"></a></div>
+        <p class="note" style="margin:12px 0 0" dir="ltr">+971 55 685 9423</p></div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap"><p data-t="footer"></p></div></footer>
+<div class="mbook"><a class="btn" href="#book" data-t="ctaBook"></a></div>
+
+<script>
+{
+const API='https://qpxdctbhnlqgfefxqiok.supabase.co/rest/v1/rpc/',KEY='sb_publishable_r6GD32Q57EbcoxJOMdLENQ_AdrtX9kb';
+const T={
+en:{banner:"Sample design prepared for Hollywood Ladies Salon by Hamas. This is not the salon's official website. Bookings here go to a demo, not to the salon.",
+ name1:"Hollywood",name2:"Ladies Salon · Dubai",navServices:"Services",navBridal:"Bridal",navBranches:"Branches",
+ heroTitle:"Hair, brows, facials and bridal makeup",heroSub:"Two ladies-only salons in Al Rigga and Karama. Pick a time online and we confirm on WhatsApp.",
+ ctaBook:"Book an appointment",ctaCall:"Call Al Rigga",rating:"from 827 ratings on magicpin (Al Rigga branch)",
+ openNow:"Al Rigga is open now, until 10:30 pm",closedNow:"Al Rigga opens at 10:00 am",openShort:"Open now, until 10:30 pm",closedShort:"Closed now, opens at 10:00 am",
+ servicesTitle:"Services",pricesNote:"Prices here are placeholders. Send your price list and it goes here. Tap a service to book it.",bookIt:"Book",
+ bridalTitle:"Bridal makeup",bridalText:"Tell us your wedding date and how many of you are getting ready. We call you to plan a trial at the branch you prefer.",
+ bridalCta:"Ask about bridal makeup",bridalBig:"Your big day",bridalPhoto:"Your own bridal photos go here.",
+ bookTitle:"Book in a minute",branch:"Branch",rigga:"Al Rigga",karama:"Al Karama",service:"Service",day:"Day",time:"Time",
+ yourName:"Your name",nameHint:"This is a demo: type any first name. Please don't enter real personal details.",
+ request:"Request this time",sending:"Sending…",
+ pickTime:"Pick a time first.",needName:"Type a name so the salon knows who is coming.",taken:"Someone just took this time. Please pick another.",past:"This time has passed. Please pick a later one.",busy:"The demo is busy right now. Try again in a few minutes.",
+ offline:"Couldn't reach the booking system, so this one stayed on your phone. Sample only: nothing was sent.",
+ stNew:"Sent. Waiting for the salon to confirm",stNewSub:"This updates by itself. To see the other side, open the salon view and confirm it.",
+ stConfirmed:"Confirmed",stConfirmedSub:"See you then. The real version also sends this to you on WhatsApp.",
+ stSuggested:"The salon suggested another time",stSuggestedSub:"Can you come at {t} instead?",accept:"Yes, {t} works",pickOther:"Pick another time",
+ stDeclined:"The salon can't do this time",stDeclinedSub:"Please pick another time.",
+ ownerSees:"What the salon sees on its phone",salonView:"Salon view",waiting:"New requests appear here.",
+ confirm:"Confirm",other:"Suggest time",openSalon:"Open the salon view",openSalonNote:"Try it on a second phone: book here, confirm there.",
+ pillNew:"New request",pillConfirmed:"Confirmed",pillSuggested:"New time suggested",pillDeclined:"Declined",
+ branchesTitle:"Two branches",riggaAddr:"M floor, Al Hawai Building, Al Rigga Road, Deira",riggaHours:"Daily 10:00 am to 10:30 pm",
+ karamaAddr:"Khalid Al Attar Building, 4th floor, 17 Kuwait Street, Al Karama",karamaHours:"Call for opening hours",
+ call:"Call",directions:"Directions",footer:"Sample design by Hamas, web design in Dubai. Hollywood Ladies Salon's name, branches, hours and phone numbers are taken from its public listings.",
+ cats:[["Threading",["Eyebrow threading","Face threading"]],["Facials",["Classic facial","Acne facial","Dermaplaning","Microdermabrasion"]],["Waxing",["Hollywood wax","Face waxing"]],["Makeup",["Event makeup","Bridal makeup"]],["Hair",["Hair styling","Hair treatment"]],["Nails",["Manicure","Pedicure"]]],
+ price:"AED —",dows:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
+ar:{banner:"نموذج تصميم أعدّه Hamas لصالون هوليوود للسيدات. هذا ليس الموقع الرسمي للصالون. الحجوزات هنا تذهب إلى نسخة تجريبية وليس إلى الصالون.",
+ name1:"هوليوود",name2:"صالون للسيدات · دبي",navServices:"الخدمات",navBridal:"العرائس",navBranches:"الفروع",
+ heroTitle:"الشعر والحواجب والعناية بالبشرة ومكياج العرائس",heroSub:"صالونان للسيدات فقط في الرقة والكرامة. اختاري الموعد عبر الإنترنت ونؤكده لكِ عبر واتساب.",
+ ctaBook:"احجزي موعدًا",ctaCall:"اتصلي بفرع الرقة",rating:"من 827 تقييمًا على magicpin (فرع الرقة)",
+ openNow:"فرع الرقة مفتوح الآن حتى 10:30 مساءً",closedNow:"فرع الرقة يفتح الساعة 10:00 صباحًا",openShort:"مفتوح الآن حتى 10:30 مساءً",closedShort:"مغلق الآن، يفتح الساعة 10:00 صباحًا",
+ servicesTitle:"الخدمات",pricesNote:"الأسعار هنا مؤقتة. أرسلي قائمة أسعارك وسنضيفها. اضغطي على أي خدمة لحجزها.",bookIt:"احجزي",
+ bridalTitle:"مكياج العرائس",bridalText:"أخبرينا بموعد زفافك وعدد من سيتجهّزن معكِ، وسنتصل بكِ لتحديد موعد التجربة في الفرع الذي تفضّلينه.",
+ bridalCta:"استفسري عن مكياج العروس",bridalBig:"يومكِ الكبير",bridalPhoto:"هنا تُعرض صور العرائس الخاصة بكم.",
+ bookTitle:"احجزي في دقيقة",branch:"الفرع",rigga:"الرقة",karama:"الكرامة",service:"الخدمة",day:"اليوم",time:"الوقت",
+ yourName:"اسمكِ",nameHint:"هذه نسخة تجريبية: اكتبي أي اسم. يُرجى عدم إدخال بيانات شخصية حقيقية.",
+ request:"اطلبي هذا الموعد",sending:"جارٍ الإرسال…",
+ pickTime:"اختاري الوقت أولًا.",needName:"اكتبي اسمًا ليعرف الصالون من القادمة.",taken:"تم حجز هذا الوقت للتو. اختاري وقتًا آخر.",past:"انتهى هذا الوقت. اختاري وقتًا لاحقًا.",busy:"النسخة التجريبية مشغولة الآن. حاولي بعد دقائق.",
+ offline:"تعذّر الوصول إلى نظام الحجز، فبقي هذا الطلب على هاتفك. نموذج فقط: لم يتم إرسال أي شيء.",
+ stNew:"تم الإرسال. بانتظار تأكيد الصالون",stNewSub:"تتحدث هذه الرسالة تلقائيًا. لرؤية الجهة الأخرى افتحي صفحة الصالون وأكّدي الطلب.",
+ stConfirmed:"تم التأكيد",stConfirmedSub:"نراكِ قريبًا. النسخة الحقيقية ترسل لكِ هذا أيضًا عبر واتساب.",
+ stSuggested:"اقترح الصالون وقتًا آخر",stSuggestedSub:"هل يناسبكِ الساعة {t} بدلًا من ذلك؟",accept:"نعم، {t} يناسبني",pickOther:"اختاري وقتًا آخر",
+ stDeclined:"لا يستطيع الصالون هذا الوقت",stDeclinedSub:"يُرجى اختيار وقت آخر.",
+ ownerSees:"ما يظهر للصالون على الهاتف",salonView:"صفحة الصالون",waiting:"تظهر الطلبات الجديدة هنا.",
+ confirm:"تأكيد",other:"اقتراح وقت",openSalon:"افتحي صفحة الصالون",openSalonNote:"جرّبيها على هاتف ثانٍ: احجزي هنا وأكّدي هناك.",
+ pillNew:"طلب جديد",pillConfirmed:"مؤكد",pillSuggested:"تم اقتراح وقت جديد",pillDeclined:"مرفوض",
+ branchesTitle:"فرعان",riggaAddr:"الطابق الميزانين، بناية الهوائي، شارع الرقة، ديرة",riggaHours:"يوميًا من 10:00 صباحًا حتى 10:30 مساءً",
+ karamaAddr:"بناية خالد العطار، الطابق الرابع، 17 شارع الكويت، الكرامة",karamaHours:"اتصلي لمعرفة مواعيد العمل",
+ call:"اتصال",directions:"الاتجاهات",footer:"نموذج تصميم من Hamas، تصميم مواقع في دبي. اسم صالون هوليوود للسيدات وفروعه ومواعيده وأرقام هواتفه مأخوذة من صفحاته العامة.",
+ cats:[["الخيط",["حواجب بالخيط","وجه بالخيط"]],["العناية بالبشرة",["تنظيف بشرة كلاسيكي","علاج حب الشباب","ديرمابلانينغ","مايكرودرمابريجن"]],["إزالة الشعر بالشمع",["شمع هوليوود","شمع الوجه"]],["المكياج",["مكياج المناسبات","مكياج العروس"]],["الشعر",["تصفيف الشعر","علاج الشعر"]],["الأظافر",["مانيكير","باديكير"]]],
+ price:"— درهم",dows:["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],months:["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"]}};
+
+const $=id=>document.getElementById(id);
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+async function rpc(fn,body){
+  const r=await fetch(API+fn,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(body||{})});
+  const j=await r.json().catch(()=>null);
+  if(!r.ok){const e=new Error((j&&j.message)||'server');e.server=true;throw e}
+  return j;
+}
+let lang='en';const st={branch:'rigga',svc:0,day:0,slot:null};
+const dubaiNow=()=>new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Dubai'}));
+const today=dubaiNow();
+const days=Array.from({length:7},(_,i)=>{const d=new Date(today);d.setDate(today.getDate()+i);return d});
+const ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const hours=[10,11,12,13,14,15,16,17,18,19,20,21];
+let real=new Set();            // times booked through the system
+const sample=(b,d,h)=>((d.getDate()*7+h*13+(b==='rigga'?3:5))%11)<2;   // a few busy times so the calendar looks lived-in
+const isTaken=(b,d,h)=>real.has(`${b}|${ymd(d)}|${h}`)||sample(b,d,h);
+const hh=h=>{const n=h>12?h-12:h;return lang==='ar'?`${n} ${h<12?'ص':'م'}`:`${n} ${h<12?'am':'pm'}`};
+const svcList=()=>T[lang].cats.flatMap(([c,items])=>items);
+const fmtDay=s=>{const[y,m,d]=s.split('-').map(Number);const dt=new Date(y,m-1,d);const t=T[lang];return `${t.dows[dt.getDay()]} ${d} ${t.months[m-1]}`};
+const fill=(s,o)=>s.replace(/\{(\w+)\}/g,(_,k)=>o[k]);
+
+let my=store.get('hw_my');      // the visitor's own request, so the status survives a reload
+if(my&&(my.local||my.day<ymd(today)))my=null;
+let myStatus=null,poll=null;
+
+function openState(){
+  const n=dubaiNow(),m=n.getHours()*60+n.getMinutes(),open=m>=600&&m<1350,t=T[lang];
+  $('openHero').className='open'+(open?' yes':'');$('openHero').textContent=open?t.openNow:t.closedNow;
+  $('openRigga').className='open'+(open?' yes':'');$('openRigga').textContent=open?t.openShort:t.closedShort;
+}
+function draw(){
+  const t=T[lang];
+  document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-t]').forEach(el=>{el.textContent=t[el.dataset.t]});
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
+  let k=0;
+  $('menu').innerHTML=t.cats.map(([c,items])=>`<div class="cat"><h3>${c}</h3>${items.map(s=>`<button type="button" class="item" data-s="${k++}"><span>${s}</span><i></i><b>${t.price}</b><em>${t.bookIt}</em></button>`).join('')}</div>`).join('');
+  $('svc').innerHTML=svcList().map((s,i)=>`<option value="${i}"${i==st.svc?' selected':''}>${s}</option>`).join('');
+  $('seg').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.b===st.branch));
+  $('days').innerHTML=days.map((d,i)=>`<button type="button" data-d="${i}" aria-pressed="${i===st.day}">${t.dows[d.getDay()].slice(0,lang==='ar'?undefined:3)}<small>${d.getDate()} ${t.months[d.getMonth()]}</small></button>`).join('');
+  drawSlots();openState();drawLive();drawNotif();
+}
+function drawSlots(){
+  const d=days[st.day],now=dubaiNow();
+  if(st.slot!==null&&isTaken(st.branch,d,st.slot))st.slot=null;
+  $('slots').innerHTML=hours.map(h=>{const past=st.day===0&&h<=now.getHours();const off=past||isTaken(st.branch,d,h);return `<button type="button" data-h="${h}" aria-pressed="${st.slot===h}"${off?' disabled':''}>${hh(h)}</button>`}).join('');
+}
+async function loadTaken(){
+  try{const rows=await rpc('hw_taken',{p_from:ymd(days[0]),p_to:ymd(days[6])});real=new Set(rows.map(r=>`${r.branch}|${r.day}|${r.hour}`));drawSlots()}catch(e){}
+}
+function err(msg){const e=$('err');e.textContent=msg||'';e.classList.toggle('show',!!msg)}
+
+/* the visitor's request, live */
+function drawLive(){
+  const box=$('live'),t=T[lang];
+  if(!my){box.className='live';box.innerHTML='';return}
+  const s=my.local?'local':(myStatus?myStatus.status:'new');
+  box.className='live show';box.dataset.s=s;
+  const hr=myStatus&&myStatus.status!=='suggested'?myStatus.hour:my.hour;
+  const line=`${svcList()[my.svc]}, ${t[my.branch]}, ${fmtDay(my.day)}, ${hh(hr)}`;
+  box.innerHTML=`<div class="state"><span class="dot"></span><span></span></div><p class="ln"></p><p class="note sub"></p><div class="acts"></div>`;
+  const set=(sel,txt)=>{box.querySelector(sel).textContent=txt};
+  if(s==='local'){set('.state span:last-child',line);set('.sub',t.offline);return}
+  set('.state span:last-child',{new:t.stNew,confirmed:t.stConfirmed,suggested:t.stSuggested,declined:t.stDeclined}[s]);
+  set('.ln',line);box.querySelector('.ln').insertAdjacentHTML('beforeend',`<br><span class="note" dir="ltr">${my.code}</span>`);
+  set('.sub',{new:t.stNewSub,confirmed:t.stConfirmedSub,suggested:fill(t.stSuggestedSub,{t:hh(myStatus&&myStatus.new_hour)}),declined:t.stDeclinedSub}[s]);
+  const acts=box.querySelector('.acts');
+  if(s==='new')acts.innerHTML=`<a class="btn ghost" href="salon.html" target="_blank" rel="noopener">${t.openSalon}</a>`;
+  if(s==='suggested')acts.innerHTML=`<button type="button" class="btn" data-acc>${fill(t.accept,{t:hh(myStatus.new_hour)})}</button><button type="button" class="btn ghost" data-again>${t.pickOther}</button>`;
+  if(s==='declined')acts.innerHTML=`<button type="button" class="btn ghost" data-again>${t.pickOther}</button>`;
+}
+function drawNotif(){
+  const n=$('notif'),t=T[lang];
+  if(!my){n.innerHTML=`<span class="note">${t.waiting}</span>`;return}
+  const s=my.local?'new':(myStatus?myStatus.status:'new');
+  const pill={new:['',t.pillNew],confirmed:['confirmed',t.pillConfirmed],suggested:['',t.pillSuggested],declined:['declined',t.pillDeclined]}[s];
+  const h=myStatus?(myStatus.status==='suggested'?myStatus.new_hour:myStatus.hour):my.hour;
+  n.innerHTML=`<span class="pill ${pill[0]}">${pill[1]}</span><strong></strong><span class="d"></span><br><span class="w"></span>${s==='new'?`<div class="acts"><span>${t.confirm}</span><span>${t.other}</span></div>`:''}`;
+  n.querySelector('strong').textContent=my.name;
+  n.querySelector('.d').textContent=svcList()[my.svc];
+  n.querySelector('.w').textContent=`${t[my.branch]}, ${fmtDay(my.day)}, ${hh(h)}`;
+}
+function bump(){const n=$('notif');n.classList.remove('new');void n.offsetWidth;n.classList.add('new')}
+async function check(){
+  if(!my||my.local)return;
+  try{
+    const s=await rpc('hw_status',{p_id:my.id});
+    if(!s){my=null;store.set('hw_my',null);stop();draw();return}
+    const changed=!myStatus||s.status!==myStatus.status||s.new_hour!==myStatus.new_hour;
+    myStatus=s;
+    if(changed){drawLive();drawNotif();bump()}
+    if(s.status==='confirmed'||s.status==='declined'){stop();loadTaken()}
+  }catch(e){}
+}
+function stop(){clearInterval(poll);poll=null}
+function watch(){stop();check();poll=setInterval(check,3000)}
+
+document.querySelector('.lang').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.lang;err('');draw();requestAnimationFrame(()=>bulbs(true))});
+$('seg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;st.branch=b.dataset.b;st.slot=null;$('seg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));drawSlots()});
+$('svc').addEventListener('change',e=>{st.svc=+e.target.value});
+$('days').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;st.day=+b.dataset.d;st.slot=null;$('days').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));drawSlots()});
+$('slots').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;st.slot=+b.dataset.h;err('');drawSlots()});
+$('menu').addEventListener('click',e=>{const b=e.target.closest('.item');if(!b)return;st.svc=+b.dataset.s;$('svc').value=st.svc;$('book').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'})});
+document.querySelector('[data-bridal]').addEventListener('click',()=>{st.svc=9;$('svc').value=9});
+$('live').addEventListener('click',async e=>{
+  if(e.target.closest('[data-acc]')){try{myStatus=await rpc('hw_accept',{p_id:my.id});drawLive();drawNotif();bump();loadTaken()}catch(x){}}
+  if(e.target.closest('[data-again]')){my=null;myStatus=null;store.set('hw_my',null);stop();drawLive();drawNotif();$('slots').scrollIntoView({block:'center'})}
+});
+$('form').addEventListener('submit',async e=>{
+  e.preventDefault();const t=T[lang];err('');
+  if(st.slot===null){err(t.pickTime);return}
+  const name=$('nm').value.trim();if(!name){err(t.needName);$('nm').focus();return}
+  const btn=$('send');btn.disabled=true;btn.textContent=t.sending;
+  const req={branch:st.branch,svc:st.svc,day:ymd(days[st.day]),hour:st.slot,name};
+  try{
+    const r=await rpc('hw_request',{p_branch:req.branch,p_service:req.svc,p_day:req.day,p_hour:req.hour,p_name:name});
+    my={...req,id:r.id,code:r.code};myStatus=null;store.set('hw_my',my);
+    real.add(`${req.branch}|${req.day}|${req.hour}`);st.slot=null;drawSlots();drawLive();drawNotif();bump();watch();
+  }catch(x){
+    if(x.server){err(t[x.message]||t.busy);if(x.message==='taken'||x.message==='past'){st.slot=null;loadTaken()}}
+    else{my={...req,local:true,code:'—'};myStatus=null;drawLive();drawNotif();bump()}
+  }finally{btn.disabled=false;btn.textContent=t.request}
+});
+
+/* the mirror's bulbs: placed around the frame, switched on one after another */
+const mirror=$('mirror');
+function bulbs(instant){
+  mirror.querySelectorAll('.bulb').forEach(b=>b.remove());
+  const w=mirror.offsetWidth,h=mirror.offsetHeight,gap=w<420?44:56,inset=14;const pts=[];
+  const nx=Math.max(3,Math.round((w-2*inset)/gap)),ny=Math.max(2,Math.round((h-2*inset)/gap));
+  for(let i=0;i<=nx;i++)pts.push([inset+(w-2*inset)*i/nx,inset]);
+  for(let j=1;j<=ny;j++)pts.push([w-inset,inset+(h-2*inset)*j/ny]);
+  for(let i=nx-1;i>=0;i--)pts.push([inset+(w-2*inset)*i/nx,h-inset]);
+  for(let j=ny-1;j>=1;j--)pts.push([inset,inset+(h-2*inset)*j/ny]);
+  const still=instant||matchMedia('(prefers-reduced-motion:reduce)').matches;
+  pts.forEach(([x,y],i)=>{const s=document.createElement('span');s.className='bulb'+(still?' on':'');s.style.left=x+'px';s.style.top=y+'px';s.setAttribute('aria-hidden','true');mirror.appendChild(s);if(!still)setTimeout(()=>s.classList.add('on'),250+i*55)});
+}
+if(location.hash==='#ar')lang='ar';
+draw();
+requestAnimationFrame(()=>bulbs(lang==='ar'));
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>bulbs(true),200)});
+loadTaken();setInterval(loadTaken,20000);setInterval(openState,60000);
+if(my)watch();
+}
+</script>
+</body>
+</html>

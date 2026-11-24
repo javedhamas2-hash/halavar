@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salon view – Hollywood Ladies Salon sample</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2a1220">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;1,6..96,500&family=Hanken+Grotesk:wght@400;500;600;700&family=Amiri:wght@700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* The salon's side of the same mirror: what the front desk keeps open on its phone. Same palette, working tone. */
+:root{--ground:#f6e9e3;--paper:#fff8f4;--ink:#2a1220;--soft:#6e4a5a;--line:#e7cfc6;--plum:#2a1220;--plum2:#3a1a2c;
+--rouge:#b0244e;--ok:#1f7a4a;--bulb:#ffd27a;--display:"Bodoni Moda",Georgia,serif;--body:"Hanken Grotesk",system-ui,sans-serif}
+html[lang=ar]{--display:"Amiri",serif;--body:"Tajawal",system-ui,sans-serif}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--ground);color:var(--ink);font:16px/1.55 var(--body)}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.1;margin:0}
+p{margin:0}
+a{color:inherit}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--rouge);outline-offset:3px}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+.sample{background:#140910;color:#f3dfe6;font-size:13px;text-align:center;padding:8px 16px;line-height:1.4}
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ground) 94%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;min-height:62px}
+.mark{display:flex;flex-direction:column;line-height:1;margin-inline-end:auto}
+.mark b{font:italic 500 25px var(--display)}
+html[lang=ar] .mark b{font-style:normal;font-size:23px}
+.mark span{font-size:12.5px;color:var(--soft);margin-top:3px}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--ok)}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:#2fbf6f;animation:pulse 1.6s ease-in-out infinite}
+.live.off{color:var(--soft)}.live.off::before{background:#b9a5ad;animation:none}
+@keyframes pulse{50%{opacity:.35}}
+.lang{display:flex;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden}
+.lang button{border:0;background:transparent;min-height:34px;padding:0 11px;cursor:pointer;font-weight:700;color:var(--ink)}
+.lang button[aria-pressed=true]{background:var(--ink);color:var(--ground)}
+.sum{background:radial-gradient(120% 90% at 50% 0%,var(--plum2),var(--plum) 70%);color:#f7e8ee;padding:26px 0 24px}
+.sum h1{font-size:clamp(30px,8vw,44px)}
+.sum h1 em{font:700 1em var(--body);color:var(--bulb);font-variant-numeric:lining-nums}
+.sum p{color:#e2c9d4;margin-top:6px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:18px;background:rgba(255,255,255,.08);padding:5px;border-radius:14px}
+.seg button{border:0;border-radius:10px;min-height:40px;background:transparent;color:#f1dde6;font-weight:700;cursor:pointer}
+.seg button[aria-pressed=true]{background:#fff;color:var(--ink)}
+main{padding:22px 0 60px}
+h2{font-size:26px;margin:8px 0 12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 2px 0 rgba(42,18,32,.04)}
+.card.fresh{animation:arrive 1.6s ease}
+@keyframes arrive{0%{transform:translateY(-6px);box-shadow:0 0 0 4px rgba(176,36,78,.35)}100%{box-shadow:0 0 0 0 rgba(176,36,78,0)}}
+.meta{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--soft);margin-bottom:6px}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:700;background:#fbe7c4;color:#7a4c00}
+.pill.wait{background:#ece4f3;color:#4b2a6b}
+.who{font-size:20px;font-weight:700}
+.what{font-size:15.5px}
+.when{font-size:15.5px;font-weight:600;margin-top:2px}
+.acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:999px;border:0;font-weight:700;cursor:pointer;text-decoration:none}
+.btn.ok{background:var(--ok);color:#fff;flex:1 1 120px}
+.btn.alt{background:#f3ece8;color:var(--ink);flex:1 1 120px}
+.btn.no{background:transparent;color:var(--rouge);padding:0 10px}
+.btn:disabled{opacity:.55;cursor:progress}
+.pick{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);display:none}
+.pick.show{display:block}
+.pick p{font-size:14px;font-weight:700;margin-bottom:8px}
+.hours{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.hours button{min-height:42px;border:1.5px solid var(--line);background:#fff;border-radius:12px;font-weight:600;cursor:pointer;color:var(--ink)}
+.hours button:hover{border-color:var(--rouge);color:var(--rouge)}
+.empty{background:var(--paper);border:1.5px dashed var(--line);border-radius:18px;padding:22px;text-align:center;color:var(--soft)}
+.empty .btn{margin-top:12px;background:var(--rouge);color:#fff}
+.day{font-weight:700;font-size:14px;color:var(--soft);margin:18px 0 8px}
+.row{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.row .t{font:700 17px var(--body)}
+.row b{display:block}
+.row small{color:var(--soft);font-size:13.5px}
+.row .br{font-size:12.5px;font-weight:700;color:var(--soft);white-space:nowrap}
+.toast{position:fixed;inset:auto 14px 18px;max-width:520px;margin:0 auto;background:var(--ink);color:#fff;border-radius:16px;padding:14px 16px;font-size:15px;box-shadow:0 12px 30px rgba(0,0,0,.25);transform:translateY(calc(100% + 40px));visibility:hidden;transition:transform .3s,visibility .3s;z-index:40}
+.toast.show{transform:none;visibility:visible}
+.toast small{display:block;color:#d9c3cc;margin-top:4px;font-size:13.5px}
+.foot{margin-top:34px;font-size:14px;color:var(--soft)}
+.foot a{font-weight:700;color:var(--rouge)}
+@media(prefers-reduced-motion:reduce){.card.fresh{animation:none}.live::before{animation:none}.toast{transition:none}}
+</style>
+</head>
+<body>
+<div class="sample" data-t="banner"></div>
+<header class="top"><div class="wrap">
+  <div class="mark"><b data-t="name1"></b><span data-t="sub"></span></div>
+  <span class="live" id="live" data-t="live"></span>
+  <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="ar" aria-pressed="false">عربي</button></div>
+</div></header>
+<section class="sum"><div class="wrap">
+  <h1 id="headline"></h1>
+  <p id="subline"></p>
+  <div class="seg" id="seg" role="group"><button type="button" data-b="all" aria-pressed="true" data-t="all"></button><button type="button" data-b="rigga" aria-pressed="false" data-t="rigga"></button><button type="button" data-b="karama" aria-pressed="false" data-t="karama"></button></div>
+</div></section>
+<main><div class="wrap">
+  <h2 data-t="newTitle"></h2>
+  <div id="new"></div>
+  <h2 style="margin-top:28px" data-t="confTitle"></h2>
+  <div id="conf"></div>
+  <p class="foot"><span data-t="foot"></span> <a href="./" data-t="backLink"></a></p>
+</div></main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+{
+const API='https://qpxdctbhnlqgfefxqiok.supabase.co/rest/v1/rpc/',KEY='sb_publishable_r6GD32Q57EbcoxJOMdLENQ_AdrtX9kb';
+const T={
+en:{banner:"Sample made for Hollywood Ladies Salon by Hamas. Demo bookings only.",name1:"Hollywood",sub:"Salon view",live:"Live",offline:"Offline",
+ all:"All",rigga:"Al Rigga",karama:"Al Karama",
+ headNew:n=>n===1?"<em>1</em> new request":`<em>${n}</em> new requests`,headNone:"No new requests",
+ subConf:n=>n===0?"No confirmed appointments coming up yet":n===1?"1 confirmed appointment coming up":`${n} confirmed appointments coming up`,
+ newTitle:"New requests",confTitle:"Confirmed",
+ pillNew:"New",pillWait:"Waiting for customer",ago:m=>m<1?"just now":m<60?`${m} min ago`:`${Math.floor(m/60)} h ago`,
+ waitText:(n,t)=>`You suggested ${t}. Waiting for ${n} to accept.`,
+ confirm:"Confirm",suggest:"Suggest time",decline:"Decline",cancel:"Cancel request",pickHour:"Pick a time to suggest",noHours:"No free times left that day.",
+ emptyNew:"No new requests right now. Open the booking page on another phone, book a time, and watch it arrive here.",openBooking:"Open the booking page",
+ emptyConf:"Confirmed appointments show here, grouped by day.",
+ today:"Today",tomorrow:"Tomorrow",
+ tConfirmed:n=>`Confirmed. ${n} sees it on the booking page straight away.`,tConfirmedSub:"In the real version, this also opens WhatsApp with a message ready to send her.",
+ tSuggested:(n,t)=>`Sent. ${n} can accept ${t} with one tap.`,tDeclined:n=>`Declined. ${n} is asked to pick another time.`,tTaken:"That time was just taken. Pick another.",tErr:"Couldn't save that. Check your connection and try again.",
+ foot:"Demo: anyone with this link can try it, and requests clear 2 days after the appointment. The real version is behind a password.",backLink:"Back to the booking page",
+ svc:["Eyebrow threading","Face threading","Classic facial","Acne facial","Dermaplaning","Microdermabrasion","Hollywood wax","Face waxing","Event makeup","Bridal makeup","Hair styling","Hair treatment","Manicure","Pedicure"],
+ dows:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
+ar:{banner:"نموذج أعدّه Hamas لصالون هوليوود للسيدات. حجوزات تجريبية فقط.",name1:"هوليوود",sub:"صفحة الصالون",live:"مباشر",offline:"غير متصل",
+ all:"الكل",rigga:"الرقة",karama:"الكرامة",
+ headNew:n=>n===1?"<em>1</em> طلب جديد":`<em>${n}</em> طلبات جديدة`,headNone:"لا توجد طلبات جديدة",
+ subConf:n=>n===0?"لا توجد مواعيد مؤكدة قادمة بعد":n===1?"موعد مؤكد واحد قادم":`${n} مواعيد مؤكدة قادمة`,
+ newTitle:"طلبات جديدة",confTitle:"المواعيد المؤكدة",
+ pillNew:"جديد",pillWait:"بانتظار العميلة",ago:m=>m<1?"الآن":m<60?`قبل ${m} دقيقة`:`قبل ${Math.floor(m/60)} ساعة`,
+ waitText:(n,t)=>`اقترحتِ الساعة ${t}. بانتظار موافقة ${n}.`,
+ confirm:"تأكيد",suggest:"اقتراح وقت",decline:"رفض",cancel:"إلغاء الطلب",pickHour:"اختاري وقتًا لاقتراحه",noHours:"لا توجد أوقات متاحة في ذلك اليوم.",
+ emptyNew:"لا توجد طلبات جديدة الآن. افتحي صفحة الحجز على هاتف آخر واحجزي موعدًا لتري الطلب يصل هنا.",openBooking:"افتحي صفحة الحجز",
+ emptyConf:"تظهر المواعيد المؤكدة هنا مرتبة حسب اليوم.",
+ today:"اليوم",tomorrow:"غدًا",
+ tConfirmed:n=>`تم التأكيد. ترى ${n} ذلك فورًا على صفحة الحجز.`,tConfirmedSub:"في النسخة الحقيقية يفتح هذا أيضًا واتساب برسالة جاهزة لإرسالها إليها.",
+ tSuggested:(n,t)=>`تم الإرسال. يمكن لـ ${n} قبول الساعة ${t} بضغطة واحدة.`,tDeclined:n=>`تم الرفض. سيُطلب من ${n} اختيار وقت آخر.`,tTaken:"تم حجز هذا الوقت للتو. اختاري وقتًا آخر.",tErr:"تعذّر الحفظ. تحققي من الاتصال وحاولي مرة أخرى.",
+ foot:"نسخة تجريبية: يمكن لأي شخص لديه الرابط تجربتها، وتُحذف الطلبات بعد يومين من الموعد. النسخة الحقيقية محمية بكلمة مرور.",backLink:"العودة إلى صفحة الحجز",
+ svc:["حواجب بالخيط","وجه بالخيط","تنظيف بشرة كلاسيكي","علاج حب الشباب","ديرمابلانينغ","مايكرودرمابريجن","شمع هوليوود","شمع الوجه","مكياج المناسبات","مكياج العروس","تصفيف الشعر","علاج الشعر","مانيكير","باديكير"],
+ dows:["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],months:["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"]}};
+const $=id=>document.getElementById(id);
+async function rpc(fn,body){
+  const r=await fetch(API+fn,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(body||{})});
+  const j=await r.json().catch(()=>null);
+  if(!r.ok){const e=new Error((j&&j.message)||'server');e.server=true;throw e}
+  return j;
+}
+let lang=location.hash==='#ar'?'ar':'en',branch='all',rows=[],seen=null,openPick=null,busy=false;
+const dubaiNow=()=>new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Dubai'}));
+const ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const hh=h=>{const n=h>12?h-12:h;return lang==='ar'?`${n} ${h<12?'ص':'م'}`:`${n} ${h<12?'am':'pm'}`};
+const sample=(b,d,h)=>((d.getDate()*7+h*13+(b==='rigga'?3:5))%11)<2;   // same busy times the booking page shows
+const dayName=s=>{const t=T[lang],now=dubaiNow(),[y,m,d]=s.split('-').map(Number),dt=new Date(y,m-1,d);
+  const tm=new Date(now);tm.setDate(now.getDate()+1);
+  if(s===ymd(now))return t.today;if(s===ymd(tm))return t.tomorrow;return `${t.dows[dt.getDay()]} ${d} ${t.months[m-1]}`};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(main,sub){const el=$('toast');el.innerHTML=`${esc(main)}${sub?`<small>${esc(sub)}</small>`:''}`;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),4500)}
+
+function draw(fresh){
+  const t=T[lang];
+  document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-t]').forEach(el=>{if(el.id!=='live')el.textContent=t[el.dataset.t]});
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
+  $('seg').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.b===branch));
+  const now=dubaiNow(),todayS=ymd(now);
+  const mine=rows.filter(r=>branch==='all'||r.branch===branch);
+  const pending=mine.filter(r=>r.status==='new'||r.status==='suggested');
+  const conf=mine.filter(r=>r.status==='confirmed'&&r.day>=todayS).sort((a,b)=>a.day===b.day?a.hour-b.hour:a.day<b.day?-1:1);
+  const nNew=pending.filter(r=>r.status==='new').length;
+  $('headline').innerHTML=nNew?t.headNew(nNew):t.headNone;
+  $('subline').textContent=t.subConf(conf.length);
+  document.title=(nNew?`(${nNew}) `:'')+`${t.sub} – Hollywood`;
+  $('new').innerHTML=pending.length?pending.map(r=>{
+    const mins=Math.max(0,Math.round((Date.now()-new Date(r.created_at))/60000));
+    const wait=r.status==='suggested';
+    return `<article class="card${fresh&&fresh.has(r.id)?' fresh':''}" data-id="${r.id}">
+      <div class="meta"><span><span class="pill${wait?' wait':''}">${wait?t.pillWait:t.pillNew}</span> ${t.ago(mins)}</span><span dir="ltr">${esc(r.code)}</span></div>
+      <div class="who">${esc(r.name)}</div>
+      <div class="what">${t.svc[r.service]}</div>
+      <div class="when">${t[r.branch]}, ${dayName(r.day)}, ${hh(r.hour)}</div>
+      ${wait?`<p class="what" style="margin-top:8px">${esc(t.waitText(r.name,hh(r.new_hour)))}</p><div class="acts"><button type="button" class="btn no" data-act="declined">${t.cancel}</button></div>`
+      :`<div class="acts"><button type="button" class="btn ok" data-act="confirmed">${t.confirm}</button><button type="button" class="btn alt" data-act="pick">${t.suggest}</button><button type="button" class="btn no" data-act="declined">${t.decline}</button></div>
+      <div class="pick${openPick===r.id?' show':''}"><p>${t.pickHour}</p><div class="hours" data-hours="${r.id}"></div></div>`}
+    </article>`}).join(''):`<div class="empty">${t.emptyNew}<br><a class="btn" href="./" target="_blank" rel="noopener">${t.openBooking}</a></div>`;
+  if(openPick)fillHours(openPick);
+  let last='';
+  $('conf').innerHTML=conf.length?conf.map(r=>{const head=r.day!==last?`<p class="day">${dayName(r.day)}</p>`:'';last=r.day;
+    return `${head}<div class="row"><span class="t">${hh(r.hour)}</span><span><b>${esc(r.name)}</b><small>${t.svc[r.service]}</small></span><span class="br">${t[r.branch]}</span></div>`}).join('')
+    :`<div class="empty">${t.emptyConf}</div>`;
+}
+async function fillHours(id){
+  const r=rows.find(x=>x.id===id),box=document.querySelector(`[data-hours="${id}"]`);if(!r||!box)return;
+  let taken=new Set();
+  try{(await rpc('hw_taken',{p_from:r.day,p_to:r.day})).forEach(x=>{if(x.branch===r.branch)taken.add(x.hour)})}catch(e){}
+  const now=dubaiNow(),[y,m,d]=r.day.split('-').map(Number),dt=new Date(y,m-1,d),isToday=r.day===ymd(now);
+  const free=[10,11,12,13,14,15,16,17,18,19,20,21].filter(h=>h!==r.hour&&!taken.has(h)&&!sample(r.branch,dt,h)&&!(isToday&&h<=now.getHours()));
+  box.innerHTML=free.length?free.map(h=>`<button type="button" data-hour="${h}">${hh(h)}</button>`).join(''):`<span class="what">${T[lang].noHours}</span>`;
+}
+async function load(){
+  try{
+    const data=await rpc('hw_list');
+    const fresh=new Set();if(seen)data.forEach(r=>{if(!seen.has(r.id))fresh.add(r.id)});
+    seen=new Set(data.map(r=>r.id));
+    const changed=JSON.stringify(data)!==JSON.stringify(rows);rows=data;
+    $('live').className='live';$('live').textContent=T[lang].live;
+    if((changed||fresh.size)&&!busy)draw(fresh);
+  }catch(e){$('live').className='live off';$('live').textContent=T[lang].offline}
+}
+async function act(id,status,hour){
+  const r=rows.find(x=>x.id===id);if(!r)return;const t=T[lang];busy=true;
+  document.querySelectorAll(`[data-id="${id}"] button`).forEach(b=>b.disabled=true);
+  try{
+    await rpc('hw_set',{p_id:id,p_status:status,p_new_hour:hour??null});
+    openPick=null;
+    if(status==='confirmed')toast(t.tConfirmed(r.name),t.tConfirmedSub);
+    if(status==='suggested')toast(t.tSuggested(r.name,hh(hour)));
+    if(status==='declined')toast(t.tDeclined(r.name));
+  }catch(e){toast(e.server&&e.message==='taken'?t.tTaken:t.tErr)}
+  busy=false;await load();draw();
+}
+$('new').addEventListener('click',e=>{
+  const card=e.target.closest('[data-id]');if(!card)return;const id=card.dataset.id;
+  const b=e.target.closest('[data-act]');
+  if(b){if(b.dataset.act==='pick'){openPick=openPick===id?null:id;draw()}else act(id,b.dataset.act)}
+  const h=e.target.closest('[data-hour]');if(h)act(id,'suggested',+h.dataset.hour);
+});
+$('seg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;branch=b.dataset.b;draw()});
+document.querySelector('.lang').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.lang;draw();load()});
+draw();load();setInterval(load,4000);setInterval(()=>{if(!busy)draw()},60000);
+}
+</script>
+</body>
+</html>
