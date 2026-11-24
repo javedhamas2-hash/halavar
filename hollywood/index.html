@@ -434,6 +434,7 @@ requestAnimationFrame(()=>bulbs(lang==='ar'));
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>bulbs(true),200)});
 loadTaken();setInterval(loadTaken,20000);setInterval(openState,60000);
 if(my)watch();
+addEventListener('focus',()=>{loadTaken();if(poll)check()});
 }
 </script>
 </body>

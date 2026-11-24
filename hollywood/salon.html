@@ -227,7 +227,7 @@ $('new').addEventListener('click',e=>{
 });
 $('seg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;branch=b.dataset.b;draw()});
 document.querySelector('.lang').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.lang;draw();load()});
-draw();load();setInterval(load,4000);setInterval(()=>{if(!busy)draw()},60000);
+draw();load();setInterval(load,4000);addEventListener('focus',load);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});setInterval(()=>{if(!busy)draw()},60000);
 }
 </script>
 </body>
